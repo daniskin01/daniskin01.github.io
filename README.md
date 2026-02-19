@@ -43,12 +43,12 @@
 
     <section id="contact">
         <h2>Contact</h2>
-        <p>Email: your@email.com</p>
+        <p>Email: 2LinielzA2@gmail.com</p>
         <p>GitHub: <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
     </section>
 
     <footer>
-        <p>© 2026 Alexey</p>
+        <p>© 2026 Daniel Aniskin</p>
     </footer>
 
 </body>
