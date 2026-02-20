@@ -1,55 +1,41 @@
-
+<!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
+<!-- Info about page -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daniel | Architectural Technitian</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <header>
-        <h1>Daniel</h1>
-        <p>Remote Professional | Builder | Developer</p>
-    </header>
-
-    <nav>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-    </nav>
-
-    <section id="about">
-        <h2>About Me</h2>
-        <p>
-            I work online and focus on technology, real estate, and building digital projects.
-        </p>
-    </section>
-
-    <section id="projects">
-        <h2>Projects</h2>
-
-        <div class="project">
-            <h3>Project One</h3>
-            <p>Short description of your project.</p>
-        </div>
-
-        <div class="project">
-            <h3>Project Two</h3>
-            <p>Another project description.</p>
-        </div>
-
-    </section>
-
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: 2LinielzA2@gmail.com</p>
-        <p>GitHub: <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
-    </section>
-
-    <footer>
-        <p>© 2026 Daniel Aniskin</p>
-    </footer>
-
-</body>
+    <meta name="author" content="Liana Kadyrova">
+    <meta name="description" content="private web page">
+    <meta name="Keywords" content="Liana,Kadyrova,profile">
+    <title>Portfolio — Liana Kadyrova</title>
+<!-- Connection to CSS -->
+    <link rel="stylesheet" href="design.css">
+  </head>
+  <body>
+<!-- Navigation bar -->
+    <aside class="sidebar">
+      <h1>Portfolio</h1>
+      <a href="test_proj.html">Projects</a>
+      <a href="test_bio.html">Skills and Bio</a>
+    </aside>
+<!-- Central part of page, after working with CSS I understood, that is much easier to add a <div> tag and avoid writing both, html and CSS in one file -->
+    <div class="main">
+<!-- Photo box -->
+      <div class="photo-container">
+        <img src="images/Li.jpg" alt="My photo" class="main-photo">
+<!-- Text -->
+        <div class="name-tag">Student of Seneca Polytechnic</div>
+        <div class="bio-tag">Liana Kadyrova</div>
+<!-- Logo -->
+        <img src="images/logo.jpg" class="logo">
+      </div>
+    </div>
+<!-- Contact info -->
+    <div class="contact">
+      <p><b>Contact:</b></p>
+      <p>Phone: +7 775 679 18 35</p>
+      <p>Mail: lkadyrova8@mail.ru</p>
+      <p>Telegram: @kidli_k</p>
+      <p>Instagram: @kidli_k</p>
+    </div>
+  </body>
 </html>
