@@ -3,10 +3,10 @@
   <head>
 <!-- Info about page -->
     <meta charset="UTF-8">
-    <meta name="author" content="Liana Kadyrova">
+    <meta name="author" content="Daniel Aniskin">
     <meta name="description" content="private web page">
-    <meta name="Keywords" content="Liana,Kadyrova,profile">
-    <title>Portfolio — Liana Kadyrova</title>
+    <meta name="Keywords" content="Daniel,Aniskin,profile">
+    <title>Portfolio — Daniel Aniskin</title>
 <!-- Connection to CSS -->
     <link rel="stylesheet" href="design.css">
   </head>
@@ -23,19 +23,19 @@
       <div class="photo-container">
         <img src="images/Li.jpg" alt="My photo" class="main-photo">
 <!-- Text -->
-        <div class="name-tag">Student of Seneca Polytechnic</div>
-        <div class="bio-tag">Liana Kadyrova</div>
+        <div class="name-tag">Architectural Technologist</div>
+        <div class="bio-tag">Daniel Aniskin</div>
 <!-- Logo -->
-        <img src="images/logo.jpg" class="logo">
+<!-->        <img src="images/logo.jpg" class="logo">
       </div>
     </div>
 <!-- Contact info -->
     <div class="contact">
       <p><b>Contact:</b></p>
-      <p>Phone: +7 775 679 18 35</p>
-      <p>Mail: lkadyrova8@mail.ru</p>
-      <p>Telegram: @kidli_k</p>
-      <p>Instagram: @kidli_k</p>
+      <p>Phone: +1 647 705 44 99</p>
+      <p>Mail: 2LINIELZA2@GMAIL.COM</p>
+      <p>Telegram: @Daniel123456678901</p>
+      <p>Instagram: @mem.mailing</p>
     </div>
   </body>
 </html>
