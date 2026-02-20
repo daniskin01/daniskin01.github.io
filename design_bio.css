@@ -1,0 +1,132 @@
+/* Font taken from Google */
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+/* Page Style */
+  body {
+    font-family: "Oxygen", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: white;
+      color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+  }
+/* Navbar */
+    .sidebar {
+      position: fixed;
+      top: 40px;
+      left: 40px;
+    }
+    .sidebar h1 {
+      font-size: 38px;
+      margin-bottom: 30px;
+      font-weight: 300;
+    }
+    .sidebar a {
+      display: block;
+      margin: 12px 0;
+      text-decoration: none;
+      color: #333;
+      font-size: 17px;
+    }
+    .sidebar a {
+      text-decoration: underline;
+    }
+/* Bio */
+    .content {
+      margin-left: 260px;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 80px;
+      width: calc(100% - 260px);
+    }
+/* Skills */
+    .card {
+      width: 380px;
+      border: 1px solid #bbb;
+      border-radius: 10px;
+      padding: 30px;
+      line-height: 1.5;
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 26px;
+    }
+/* List of Skills */
+    ul {
+      padding-left: 20px;
+    }
+/* logo */
+    .logo-circle img {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+/*Contact info */
+    .contact {
+      position: fixed;
+      right: 40px;
+      bottom: 40px;
+      text-align: right;
+      font-size: 14px;
+      color: #444;
+    }
+/* Mobile Version */
+@media (max-width: 768px) {
+    body {
+      flex-direction: column;
+      text-align: left;
+      align-items: flex-start;
+    }
+/* Navbar */
+    .sidebar {
+      position: fixed;
+      top: 20px;
+      left: 10px;
+      width: 120px;
+      margin: 0;
+    }
+    .sidebar h1 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+    .sidebar a {
+      font-size: 14px;
+      margin: 6px 0;
+    }
+/* Bio */
+    .content {
+      margin-left: 140px;
+      margin-right: 140px;
+      padding: 20px;
+      flex-direction: column;
+      gap: 20px;
+      width: calc(100% - 280px);
+    }
+/* Skills */
+    .card {
+      width: 100%;
+      padding: 15px;
+    }
+    .card h2 {
+      font-size: 20px;
+    }
+/* Logo */
+    .logo-circle img {
+      width: 120px;
+      height: 120px;
+    }
+/*Contact info */
+    .contact {
+      position: fixed;
+      right: 10px;
+      bottom: 20px;
+      text-align: right;
+      font-size: 12px;
+    }
+}

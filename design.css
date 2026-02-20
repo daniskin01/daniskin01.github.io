@@ -1,0 +1,129 @@
+/* Font taken from Google */
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+/* Page Style */
+  body {
+    font-family: "Oxygen", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: white;
+      color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+  }
+/* Navbar */
+    .sidebar {
+      position: fixed;
+      top: 40px;
+      left: 40px;
+    }
+    .sidebar h1 {
+      font-size: 38px;
+      margin-bottom: 30px;
+      font-weight: 300;
+    }
+    .sidebar a {
+      display: block;
+      margin: 12px 0;
+      text-decoration: none;
+      color: #333;
+      font-size: 17px;
+    }
+    .sidebar a {
+      text-decoration: underline;
+    }
+/* Central part of page */
+    .main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      max-width: 800px;
+      width: 90%;
+      margin: 0 20px;
+    }
+/* Photo box */
+  .photo-container {
+    position: relative;
+    width: 100%;
+  }
+/* Photo */
+  .main-photo {
+    width: 100%;
+    max-width: 100%;
+    border: 2px solid #ccc;
+    padding: 3px;
+    background: repeating-linear-gradient(
+      45deg,
+      #f4f4f4,
+      #f4f4f4 10px,
+      #e9e9e9 10px,
+      #e9e9e9 20px
+    );
+    display: block;
+    margin: 0 auto;
+  }
+/* Text */
+  .name-tag {
+    position: absolute;
+    top: -70px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #111;
+    white-space: nowrap;
+  }
+  .bio-tag {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.0rem;
+    font-weight: 700;
+    color: #333;
+    white-space: nowrap;
+  }
+/* Logo */
+  .logo {
+    position: absolute;
+    right: -150px;
+    top: -40px;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #555;
+  }
+/* Contact info */
+  .contact {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    text-align: right;
+    font-size: 14px;
+    color: #444;
+  }
+/* Mobile Version */
+@media (max-width: 768px) {
+/* Navbar */
+  .main {
+    max-width: 700px;
+  }
+/* Logo */
+  .logo {
+    right: -100px;
+    top: -30px;
+    width: 140px;
+    height: 140px;
+  }
+/* Text */
+  .name-tag {
+    font-size: 1.5rem;
+  }
+  .bio-tag {
+    font-size: 2.0rem;
+  }
+}

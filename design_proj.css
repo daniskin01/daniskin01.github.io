@@ -1,0 +1,130 @@
+/* Font taken from Google */
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+/* Page Style */
+  body {
+    font-family: "Oxygen", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: white;
+      color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+  }
+/* Navbar */
+    .sidebar {
+      position: fixed;
+      top: 40px;
+      left: 40px;
+    }
+    .sidebar h1 {
+      font-size: 38px;
+      margin-bottom: 30px;
+      font-weight: 300;
+    }
+    .sidebar a {
+      display: block;
+      margin: 12px 0;
+      text-decoration: none;
+      color: #333;
+      font-size: 17px;
+    }
+    .sidebar a {
+      text-decoration: underline;
+    }
+/* Main content Area */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 20px;
+      max-width: 900px;
+      width: 90%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+/* Logo */
+    .logo-circle img {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+/* Projects section */
+    .projects-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      width: 100%;
+    }
+/* Projects box */
+    .project-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 850px;
+      box-shadow: 0 4px 15px #0000001a;
+    }
+/* Image */
+    .project-box img {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      border-radius: 10px;
+    }
+/* Contact info */
+    .contact {
+      position: fixed;
+      right: 40px;
+      bottom: 40px;
+      text-align: right;
+      font-size: 14px;
+      color: #444;
+    }
+/* Mobile Version */
+@media (max-width: 768px) {
+/* Navbar */
+  .sidebar {
+    position: static;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .sidebar h1 {
+    font-size: 28px;
+  }
+/* Projects section */
+  .projects-grid {
+    gap: 20px;
+    padding: 0;
+  }
+/* Projects box */
+  .project-box {
+    width: 90%;
+    max-width: 400px;
+    padding: 15px;
+  }
+  .project-box img {
+    width: 100%;
+    max-width: 320px;
+  }
+/* Logo */
+  .logo-circle img {
+    width: 150px;
+    height: 150px;
+  }
+/* Contact info */
+  .contact {
+    position: static;
+    margin-top: 20px;
+    text-align: center;
+  }
+}
