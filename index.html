@@ -12,28 +12,21 @@
     font-family:Arial, sans-serif;
 }
 
-/* Smooth scrolling handled by CSS */
-html{
-    scroll-behavior:smooth;
-}
-
-/* allow ONLY horizontal scroll */
 body{
-    overflow-x:auto;
-    overflow-y:hidden;
+    overflow:hidden; /* we control movement manually */
 }
 
-/* horizontal container */
+/* ===== HORIZONTAL WRAPPER ===== */
 .wrapper{
     display:flex;
     height:100vh;
-
-    scroll-snap-type:x proximity; /* softer, smoother snap */
+    width:100vw;
+    transition:transform 0.7s ease; /* smooth slide animation */
 }
 
-/* each project = full screen */
+/* ===== SECTIONS ===== */
 section{
-    flex:0 0 100vw;
+    min-width:100vw;
     height:100vh;
 
     display:flex;
@@ -42,30 +35,26 @@ section{
     align-items:center;
 
     padding:40px;
-
-    scroll-snap-align:start;
 }
 
-/* images */
 section img{
-    width:80%;
+    width:75%;
     height:60%;
     object-fit:cover;
     margin:20px 0;
     border-radius:12px;
 }
 
-/* titles */
 h1{
     font-size:3rem;
 }
 
-/* demo colors */
+/* demo backgrounds */
 #project1{ background:#f3f3f3; }
 #project2{ background:#e6e6e6; }
 #project3{ background:#dadada; }
 
-/* back button */
+/* ===== BACK BUTTON ===== */
 .back{
     position:fixed;
     top:20px;
@@ -76,6 +65,30 @@ h1{
     text-decoration:none;
     z-index:10;
 }
+
+/* ===== DOTS NAVIGATION ===== */
+.dots{
+    position:fixed;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:12px;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#999;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.dot.active{
+    background:#000;
+    transform:scale(1.4);
+}
 </style>
 </head>
 
@@ -83,31 +96,74 @@ h1{
 
 <a href="index.html" class="back">← Back</a>
 
-<div class="wrapper">
+<div class="wrapper" id="wrapper">
 
-<section id="project1">
+<section>
     <h1>Project 1</h1>
     <img src="https://picsum.photos/1400/900?1">
 </section>
 
-<section id="project2">
+<section>
     <h1>Project 2</h1>
     <img src="https://picsum.photos/1400/900?2">
 </section>
 
-<section id="project3">
+<section>
     <h1>Project 3</h1>
     <img src="https://picsum.photos/1400/900?3">
 </section>
 
 </div>
 
+<!-- dots -->
+<div class="dots" id="dots"></div>
+
 <script>
-/* convert vertical wheel → horizontal (no animation here!) */
-window.addEventListener("wheel", function(e){
-    e.preventDefault();
-    window.scrollLeft += e.deltaY;
-}, { passive:false });
+const wrapper = document.getElementById("wrapper");
+const sections = document.querySelectorAll("section");
+const dotsContainer = document.getElementById("dots");
+
+let index = 0;
+let locked = false;
+
+/* create dots */
+sections.forEach((_, i) => {
+    const d = document.createElement("div");
+    d.className = "dot";
+    if(i === 0) d.classList.add("active");
+    d.onclick = () => goTo(i);
+    dotsContainer.appendChild(d);
+});
+
+const dots = document.querySelectorAll(".dot");
+
+function goTo(i){
+    index = Math.max(0, Math.min(i, sections.length-1));
+    wrapper.style.transform = `translateX(-${index * 100}vw)`;
+
+    dots.forEach(d => d.classList.remove("active"));
+    dots[index].classList.add("active");
+}
+
+/* wheel scroll = next/prev slide */
+window.addEventListener("wheel", e => {
+    if(locked) return;
+
+    locked = true;
+
+    if(e.deltaY > 0) index++;
+    else index--;
+
+    goTo(index);
+
+    setTimeout(() => locked = false, 700); /* match transition time */
+});
+
+/* arrow keys */
+window.addEventListener("keydown", e => {
+    if(e.key === "ArrowRight") goTo(index+1);
+    if(e.key === "ArrowLeft") goTo(index-1);
+});
 </script>
 
 </body>
