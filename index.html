@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <title>Projects</title>
@@ -12,28 +12,29 @@
     font-family:Arial, sans-serif;
 }
 
-/* IMPORTANT FIX */
-body{
-    overflow-x:auto;   /* allow horizontal */
-    overflow-y:hidden; /* block vertical only */
-}
-
-/* container */
-.wrapper{
-    display:flex;
-    height:100vh;
-    width:300vw; /* 3 sections = 300vw */
-    scroll-snap-type:x mandatory;
+/* Smooth scrolling handled by CSS */
+html{
     scroll-behavior:smooth;
 }
 
-/* each section */
-section{
-    width:100vw;
+/* allow ONLY horizontal scroll */
+body{
+    overflow-x:auto;
+    overflow-y:hidden;
+}
+
+/* horizontal container */
+.wrapper{
+    display:flex;
     height:100vh;
 
-    flex-shrink:0;
-    scroll-snap-align:start;
+    scroll-snap-type:x proximity; /* softer, smoother snap */
+}
+
+/* each project = full screen */
+section{
+    flex:0 0 100vw;
+    height:100vh;
 
     display:flex;
     flex-direction:column;
@@ -41,21 +42,30 @@ section{
     align-items:center;
 
     padding:40px;
+
+    scroll-snap-align:start;
 }
 
 /* images */
-img{
-    width:75%;
+section img{
+    width:80%;
     height:60%;
     object-fit:cover;
     margin:20px 0;
+    border-radius:12px;
+}
+
+/* titles */
+h1{
+    font-size:3rem;
 }
 
 /* demo colors */
-#project1{ background:#f2f2f2; }
-#project2{ background:#e5e5e5; }
-#project3{ background:#d9d9d9; }
+#project1{ background:#f3f3f3; }
+#project2{ background:#e6e6e6; }
+#project3{ background:#dadada; }
 
+/* back button */
 .back{
     position:fixed;
     top:20px;
@@ -64,6 +74,7 @@ img{
     color:white;
     padding:10px 15px;
     text-decoration:none;
+    z-index:10;
 }
 </style>
 </head>
@@ -92,13 +103,11 @@ img{
 </div>
 
 <script>
-/* convert vertical mouse wheel → horizontal scroll */
-window.addEventListener("wheel", (e) => {
-    window.scrollBy({
-        left: e.deltaY * 2,
-        behavior: "smooth"
-    });
-});
+/* convert vertical wheel → horizontal (no animation here!) */
+window.addEventListener("wheel", function(e){
+    e.preventDefault();
+    window.scrollLeft += e.deltaY;
+}, { passive:false });
 </script>
 
 </body>
