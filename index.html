@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Projects</title>
+<title>Portfolio</title>
 
 <style>
 *{
@@ -13,15 +13,15 @@
 }
 
 body{
-    overflow:hidden; /* we control movement manually */
+    overflow:hidden;
 }
 
-/* ===== HORIZONTAL WRAPPER ===== */
+/* ===== WRAPPER ===== */
 .wrapper{
     display:flex;
     height:100vh;
     width:100vw;
-    transition:transform 0.7s ease; /* smooth slide animation */
+    transition:transform 0.7s ease;
 }
 
 /* ===== SECTIONS ===== */
@@ -37,29 +37,34 @@ section{
     padding:40px;
 }
 
+/* ===== TITLE PAGE STYLE ===== */
+.title-page{
+    background:#111;
+    color:white;
+    text-align:center;
+}
+
+.title-page h1{
+    font-size:4rem;
+    letter-spacing:2px;
+    margin-bottom:20px;
+}
+
+.title-page h2{
+    font-weight:300;
+    opacity:0.8;
+}
+
+.title-page p{
+    margin-top:20px;
+    max-width:600px;
+    opacity:0.7;
+}
+
+/* ===== PROJECT SECTIONS ===== */
 section img{
     width:75%;
     height:60%;
-    object-fit:cover;
-    margin:20px 0;
-    border-radius:12px;
-}
-
-sectionMain{
-    min-width:100vw;
-    height:100vh;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-
-    padding:40px;
-}
-    
-section imgMain{
-    width:40%;
-    height:40%;
     object-fit:cover;
     margin:20px 0;
     border-radius:12px;
@@ -69,24 +74,12 @@ h1{
     font-size:3rem;
 }
 
-/* demo backgrounds */
-#project1{ background:#f3f3f3; }
-#project2{ background:#e6e6e6; }
-#project3{ background:#dadada; }
+/* demo colors */
+#p1{ background:#f3f3f3; }
+#p2{ background:#e6e6e6; }
+#p3{ background:#dadada; }
 
-/* ===== BACK BUTTON ===== */
-.back{
-    position:fixed;
-    top:20px;
-    left:20px;
-    background:black;
-    color:white;
-    padding:10px 15px;
-    text-decoration:none;
-    z-index:10;
-}
-
-/* ===== DOTS NAVIGATION ===== */
+/* ===== DOTS ===== */
 .dots{
     position:fixed;
     bottom:30px;
@@ -109,39 +102,59 @@ h1{
     background:#000;
     transform:scale(1.4);
 }
+
+/* back button */
+.back{
+    position:fixed;
+    top:20px;
+    left:20px;
+    background:black;
+    color:white;
+    padding:10px 15px;
+    text-decoration:none;
+    z-index:10;
+}
 </style>
 </head>
 
 <body>
 
-<a href="index.html" class="back">← Back</a>
-
 <div class="wrapper" id="wrapper">
-    
-<sectionMain>
-    <h1>Daniel Aniskin</h1>
-    <imgMain src="immanin">
-</section>
-    
-<section>
-    <h1>Project 1</h1>
-    <img src="p1.png">
+
+<!-- ===== TITLE PAGE (NEW) ===== -->
+<section class="title-page">
+    <h1>Your Name</h1>
+    <h2>Architecture / Engineering Technology Student</h2>
+    <p>
+        Portfolio of selected academic and professional projects.
+        Design focused on comfort, sustainability, and human experience.
+    </p>
+    <p style="margin-top:40px; opacity:.5;">Scroll →</p>
 </section>
 
-<section>
-    <h1>Project 2</h1>
+
+<!-- ===== PROJECTS ===== -->
+<section id="p1">
+    <h1>Residential House</h1>
+    <img src="https://picsum.photos/1400/900?1">
+</section>
+
+<section id="p2">
+    <h1>Community Center</h1>
     <img src="https://picsum.photos/1400/900?2">
 </section>
 
-<section>
-    <h1>Project 3</h1>
+<section id="p3">
+    <h1>Urban Plaza</h1>
     <img src="https://picsum.photos/1400/900?3">
 </section>
 
 </div>
 
-<!-- dots -->
+
+<!-- DOTS -->
 <div class="dots" id="dots"></div>
+
 
 <script>
 const wrapper = document.getElementById("wrapper");
@@ -151,7 +164,7 @@ const dotsContainer = document.getElementById("dots");
 let index = 0;
 let locked = false;
 
-/* create dots */
+/* create dots automatically */
 sections.forEach((_, i) => {
     const d = document.createElement("div");
     d.className = "dot";
@@ -170,7 +183,7 @@ function goTo(i){
     dots[index].classList.add("active");
 }
 
-/* wheel scroll = next/prev slide */
+/* wheel scroll */
 window.addEventListener("wheel", e => {
     if(locked) return;
 
@@ -181,10 +194,10 @@ window.addEventListener("wheel", e => {
 
     goTo(index);
 
-    setTimeout(() => locked = false, 700); /* match transition time */
+    setTimeout(() => locked = false, 700);
 });
 
-/* arrow keys */
+/* keyboard arrows */
 window.addEventListener("keydown", e => {
     if(e.key === "ArrowRight") goTo(index+1);
     if(e.key === "ArrowLeft") goTo(index-1);
