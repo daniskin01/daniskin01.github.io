@@ -1,219 +1,611 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Portfolio</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Daniel Aniskin — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
+:root{
+  --ink: #0e0e0e;
+  --paper: #f0ece4;
+  --concrete: #c8c2b8;
+  --accent: #b5401a;
+  --nav-h: 56px;
 }
-body{
-    overflow:hidden;
-}
-/* ===== WRAPPER ===== */
-.wrapper{
-    display:flex;
-    height:100vh;
-    width:100vw;
-    transition:transform 0.7s ease;
-}
-/* ===== SECTIONS ===== */
-section{
-    min-width:100vw;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    padding:40px;
-}
-/* ===== TITLE PAGE STYLE ===== */
-.title-page{
-    background:#111;
-    color:white;
-    text-align:center;
-}
-.title-page h1{
-    font-size:4rem;
-    letter-spacing:2px;
-    margin-bottom:20px;
-}
-.title-page h2{
-    font-weight:300;
-    opacity:0.8;
-}
-.title-page p{
-    margin-top:20px;
-    max-width:600px;
-    opacity:0.7;
-}
-/* ===== PROJECT SECTIONS ===== */
-section img{
-    width:75%;
-    height:60%;
-    object-fit:cover;
-    margin:20px 0;
-    border-radius:12px;
-}
-h1{
-    font-size:3rem;
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+html, body{
+  width:100%; height:100%;
+  overflow:hidden;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'DM Mono', monospace;
+  cursor:none;
 }
 
-/* ===== CLICKABLE PROJECT SECTIONS ===== */
-section.project{
-    cursor: pointer;
-    position: relative;
-    transition: opacity 0.2s;
+/* CURSOR */
+#cursor{
+  position:fixed; width:10px; height:10px;
+  background:var(--accent); border-radius:50%;
+  pointer-events:none; z-index:9999;
+  transform:translate(-50%,-50%);
+  transition: width .15s, height .15s, background .15s;
 }
-section.project::after{
-    content: "View Project →";
-    position: absolute;
-    bottom: 80px;
-    right: 40px;
-    background: #111;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
+#cursor.big{ width:36px; height:36px; background:transparent; border:1.5px solid var(--accent); }
+
+/* TOP NAV */
+nav{
+  position:fixed; top:0; left:0; right:0;
+  height:var(--nav-h);
+  display:flex; align-items:stretch;
+  z-index:100;
+  border-bottom:1px solid var(--ink);
+  background:var(--paper);
 }
-section.project:hover::after{
-    opacity: 1;
+.nav-tab{
+  flex:1;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display', serif;
+  font-size:0.78rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  cursor:none;
+  border-right:1px solid var(--ink);
+  position:relative;
+  overflow:hidden;
+  transition: background 0.3s, color 0.3s;
+  user-select:none;
+}
+.nav-tab:last-child{ border-right:none; }
+.nav-tab .tab-num{
+  position:absolute; top:6px; left:10px;
+  font-size:0.6rem; opacity:0.4;
+  font-family:'DM Mono',monospace;
+}
+.nav-tab::after{
+  content:'';
+  position:absolute; bottom:0; left:0;
+  width:100%; height:3px;
+  background:var(--accent);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.35s ease;
+}
+.nav-tab.active{ background:var(--ink); color:var(--paper); }
+.nav-tab.active::after{ transform:scaleX(1); }
+
+/* STAGE */
+#stage{
+  position:fixed;
+  top:var(--nav-h); left:0; right:0; bottom:0;
+  overflow:hidden;
 }
 
-/* demo colors */
-#p1{ background:#f3f3f3; }
-#p2{ background:#e6e6e6; }
-#p3{ background:#dadada; }
-/* ===== DOTS ===== */
-.dots{
-    position:fixed;
-    bottom:30px;
-    left:50%;
-    transform:translateX(-50%);
-    display:flex;
-    gap:12px;
-    transition: opacity 0.4s;
+/* CHAPTER */
+.chapter{
+  position:absolute; top:0; left:0;
+  width:100%; height:100%;
+  display:none;
 }
-.dots.hidden{
-    opacity: 0;
-    pointer-events: none;
+.chapter.active{ display:block; }
+
+/* HORIZONTAL TRACK */
+.h-track{
+  display:flex;
+  height:100%;
+  transition: transform 0.75s cubic-bezier(0.77,0,0.18,1);
+  will-change:transform;
 }
-.dot{
-    width:12px;
-    height:12px;
-    border-radius:50%;
-    background:#999;
-    cursor:pointer;
-    transition:.3s;
+.h-panel{
+  min-width:100vw; height:100%;
+  flex-shrink:0;
+  position:relative;
 }
-.dot.active{
-    background:#000;
-    transform:scale(1.4);
+
+/* ══ CHAPTER 1: ABOUT ══ */
+.about-hero{
+  display:flex; flex-direction:column;
+  justify-content:flex-end;
+  padding:60px 80px;
+  background:var(--paper);
 }
-/* back button */
-.back{
-    position:fixed;
-    top:20px;
-    left:20px;
-    background:black;
-    color:white;
-    padding:10px 15px;
-    text-decoration:none;
-    z-index:10;
+.about-hero .line-v{
+  position:absolute; top:0; right:80px;
+  width:1px; height:100%;
+  background:var(--concrete); opacity:0.5;
 }
+.about-hero .big-name{
+  font-family:'Playfair Display', serif;
+  font-size:clamp(4rem, 10vw, 9rem);
+  font-weight:900;
+  line-height:0.9;
+  letter-spacing:-0.02em;
+}
+.about-hero .big-name em{
+  font-style:italic; color:var(--accent);
+}
+.about-hero .role{
+  margin-top:28px;
+  font-size:0.75rem; letter-spacing:0.2em;
+  text-transform:uppercase; opacity:0.5;
+}
+.scroll-hint{
+  position:absolute; bottom:40px; right:80px;
+  font-size:0.65rem; letter-spacing:0.15em;
+  text-transform:uppercase; opacity:0.35;
+  display:flex; align-items:center; gap:10px;
+}
+.scroll-hint::before{
+  content:''; display:block; width:40px; height:1px;
+  background:var(--ink);
+}
+
+.about-bio{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding:60px 80px; gap:60px;
+  background:var(--paper);
+}
+.about-bio .label{
+  font-size:0.6rem; letter-spacing:0.2em;
+  text-transform:uppercase; opacity:0.4; margin-bottom:16px;
+}
+.about-bio p{
+  font-size:1.05rem; line-height:1.8;
+  font-family:'Playfair Display', serif;
+}
+.about-bio .details{ display:flex; flex-direction:column; gap:28px; }
+.about-bio .d-label{
+  font-size:0.6rem; letter-spacing:0.18em;
+  text-transform:uppercase; opacity:0.4; margin-bottom:4px;
+}
+.about-bio .d-val{ font-size:0.9rem; }
+
+.about-skills{
+  padding:60px 80px;
+  display:flex; flex-direction:column;
+  justify-content:center;
+  background:var(--paper);
+}
+.about-skills h2{
+  font-family:'Playfair Display', serif;
+  font-size:3.5rem; font-style:italic; margin-bottom:50px;
+}
+.skills-grid{
+  display:grid; grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--ink);
+}
+.skill-item{
+  padding:24px 0 24px 0;
+  border-bottom:1px solid var(--concrete);
+  border-right:1px solid var(--concrete);
+  padding-right:20px;
+}
+.skill-item:nth-child(3n){ border-right:none; }
+.skill-item .s-name{ font-size:0.8rem; letter-spacing:0.05em; margin-bottom:12px; }
+.skill-bar{ height:2px; background:var(--concrete); position:relative; }
+.skill-fill{
+  position:absolute; top:0; left:0; height:100%;
+  background:var(--accent);
+  transform-origin:left;
+  animation: fillBar 1.2s ease forwards;
+}
+@keyframes fillBar{ to{ transform:scaleX(1); } }
+.skill-item .s-num{ margin-top:8px; font-size:0.6rem; opacity:0.4; }
+
+/* ══ CHAPTER 2: PROJECTS ══ */
+.projects-intro{
+  background:var(--ink); color:var(--paper);
+  display:flex; flex-direction:column;
+  justify-content:center; padding:60px 80px;
+}
+.projects-intro h2{
+  font-family:'Playfair Display', serif;
+  font-size:clamp(3rem, 8vw, 7rem);
+  font-weight:900; line-height:0.9; margin-bottom:40px;
+}
+.projects-intro p{
+  font-size:0.75rem; letter-spacing:0.12em;
+  text-transform:uppercase; opacity:0.4;
+  max-width:360px; line-height:1.8;
+}
+
+.project-panel{
+  background:var(--paper);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+  border-left:1px solid var(--concrete);
+}
+.project-inner{
+  flex:1; overflow-y:auto; overflow-x:hidden;
+  padding:50px 80px 80px;
+  scrollbar-width:thin; scrollbar-color:var(--concrete) transparent;
+}
+.project-inner::-webkit-scrollbar{ width:4px; }
+.project-inner::-webkit-scrollbar-thumb{ background:var(--concrete); }
+
+.proj-number{
+  font-size:0.6rem; letter-spacing:0.2em;
+  text-transform:uppercase; opacity:0.35; margin-bottom:16px;
+}
+.proj-title{
+  font-family:'Playfair Display', serif;
+  font-size:clamp(2.5rem, 5vw, 4.5rem);
+  font-weight:700; line-height:1; margin-bottom:30px;
+}
+.proj-img{
+  width:100%; max-height:55vh; object-fit:cover;
+  display:block; margin-bottom:30px;
+  filter:grayscale(20%);
+  transition:filter 0.4s;
+}
+.project-panel:hover .proj-img{ filter:grayscale(0%); }
+.proj-meta{
+  display:flex; gap:40px; margin-bottom:24px;
+  font-size:0.7rem; letter-spacing:0.1em;
+  text-transform:uppercase; opacity:0.5;
+}
+.proj-desc{
+  font-family:'Playfair Display', serif;
+  font-size:1rem; line-height:1.75;
+  max-width:600px; margin-bottom:36px;
+}
+.proj-link{
+  display:inline-flex; align-items:center; gap:12px;
+  font-size:0.72rem; letter-spacing:0.15em;
+  text-transform:uppercase; text-decoration:none;
+  color:var(--ink); border-bottom:1px solid var(--ink);
+  padding-bottom:3px; transition:color 0.2s, border-color 0.2s;
+}
+.proj-link:hover{ color:var(--accent); border-color:var(--accent); }
+.proj-link .arrow{ transition:transform 0.2s; }
+.proj-link:hover .arrow{ transform:translateX(6px); }
+
+/* ══ CHAPTER 3: ACTIVITIES ══ */
+.activities-intro{
+  background:var(--accent); color:var(--paper);
+  display:flex; flex-direction:column;
+  justify-content:center; padding:60px 80px;
+}
+.activities-intro h2{
+  font-family:'Playfair Display', serif;
+  font-size:clamp(2.5rem, 7vw, 6rem);
+  font-weight:900; line-height:0.95; margin-bottom:30px;
+}
+.activities-intro p{
+  font-size:0.75rem; letter-spacing:0.12em;
+  text-transform:uppercase; opacity:0.75;
+  max-width:340px; line-height:1.8;
+}
+
+.activity-panel{
+  padding:50px 80px;
+  display:flex; flex-direction:column;
+  justify-content:center;
+  background:var(--paper);
+  border-left:1px solid var(--concrete);
+}
+.act-year{
+  font-size:0.6rem; letter-spacing:0.2em;
+  text-transform:uppercase; opacity:0.35; margin-bottom:10px;
+}
+.act-title{
+  font-family:'Playfair Display', serif;
+  font-size:clamp(1.8rem, 3.5vw, 3rem);
+  font-weight:700; line-height:1.1; margin-bottom:20px;
+}
+.act-badge{
+  display:inline-block;
+  font-size:0.62rem; letter-spacing:0.12em;
+  text-transform:uppercase; border:1px solid var(--ink);
+  padding:4px 10px; margin-bottom:20px; margin-right:8px;
+}
+.act-badge.award{ background:var(--ink); color:var(--paper); }
+.act-desc{
+  font-family:'Playfair Display', serif;
+  font-size:0.95rem; line-height:1.7;
+  max-width:500px; opacity:0.85;
+}
+
+/* PROGRESS DOTS */
+#progress{
+  position:fixed; bottom:28px; left:50%;
+  transform:translateX(-50%);
+  display:flex; gap:8px; z-index:200;
+  transition:opacity 0.3s;
+}
+#progress.hidden{ opacity:0; pointer-events:none; }
+.pdot{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--concrete); cursor:none;
+  transition:background 0.3s, transform 0.3s;
+}
+.pdot.active{ background:var(--ink); transform:scale(1.5); }
 </style>
 </head>
 <body>
-<div class="wrapper" id="wrapper">
-    <!-- ===== TITLE PAGE ===== -->
-    <section class="title-page">
-        <h1>DANIEL ANISKIN</h1>
-        <h2>Architecture Technology Student</h2>
-        <p>
-            Portfolio of selected academic and professional projects.
-            Design focused on comfort, sustainability, and human experience.
-        </p>
-        <p style="margin-top:40px; opacity:.5;">Scroll →</p>
-    </section>
 
-    <!-- ===== PROJECTS ===== -->
-    <section id="p1" class="project" data-project="residential-house">
-        <h1>Residential House</h1>
-        <img src="p1.png">
-    </section>
-    <section id="p2" class="project" data-project="community-center">
-        <h1>Community Center</h1>
-        <img src="https://picsum.photos/1400/900?2">
-    </section>
-    <section id="p3" class="project" data-project="urban-plaza">
-        <h1>Urban Plaza</h1>
-        <img src="https://picsum.photos/1400/900?3">
-    </section>
+<div id="cursor"></div>
+
+<!-- TOP NAV -->
+<nav id="nav">
+  <div class="nav-tab active" data-ch="about" onclick="switchChapter('about')">
+    <span class="tab-num">01</span>About
+  </div>
+  <div class="nav-tab" data-ch="projects" onclick="switchChapter('projects')">
+    <span class="tab-num">02</span>Projects
+  </div>
+  <div class="nav-tab" data-ch="activities" onclick="switchChapter('activities')">
+    <span class="tab-num">03</span>Activities
+  </div>
+</nav>
+
+<div id="stage">
+
+  <!-- ═ CHAPTER 1: ABOUT ═ -->
+  <div class="chapter active" id="ch-about">
+    <div class="h-track" id="track-about">
+
+      <div class="h-panel about-hero">
+        <div class="line-v"></div>
+        <div class="big-name"><em>Daniel</em><br>Aniskin</div>
+        <div class="role">Architecture Technology Student — Toronto</div>
+        <div class="scroll-hint">Scroll to explore</div>
+      </div>
+
+      <div class="h-panel about-bio">
+        <div>
+          <div class="label">Biography</div>
+          <p>Pursuing architecture technology with a focus on the intersection of human comfort, environmental performance, and spatial experience. Every project begins with a question about how people will live within it.</p>
+        </div>
+        <div class="details">
+          <div>
+            <div class="d-label">Education</div>
+            <div class="d-val">Architecture Technology, Seneca College</div>
+          </div>
+          <div>
+            <div class="d-label">Location</div>
+            <div class="d-val">Toronto, Ontario</div>
+          </div>
+          <div>
+            <div class="d-label">Focus</div>
+            <div class="d-val">Sustainable Design · Digital Fabrication · Urban Housing</div>
+          </div>
+          <div>
+            <div class="d-label">Contact</div>
+            <div class="d-val">daniel.aniskin@email.com</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-panel about-skills">
+        <h2>Skills &amp;<br>Tools</h2>
+        <div class="skills-grid" id="skillsGrid"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═ CHAPTER 2: PROJECTS ═ -->
+  <div class="chapter" id="ch-projects">
+    <div class="h-track" id="track-projects">
+
+      <div class="h-panel projects-intro">
+        <h2>Selected<br><em>Work</em></h2>
+        <p>Academic and professional projects. Scroll right to explore each one, or scroll down within a project for full details.</p>
+      </div>
+
+      <div class="h-panel project-panel">
+        <div class="project-inner">
+          <div class="proj-number">Project 01</div>
+          <div class="proj-title">Residential<br>House</div>
+          <img class="proj-img" src="p1.png" onerror="this.src='https://picsum.photos/1200/700?1'">
+          <div class="proj-meta"><span>2024</span><span>Residential</span><span>Revit · AutoCAD</span></div>
+          <p class="proj-desc">A single-family dwelling designed around passive solar principles and cross-ventilation. The layout prioritizes communal living on the ground floor while providing private retreats above, connected by a central light well.</p>
+          <a class="proj-link" href="project.html?id=residential-house">View full project <span class="arrow">→</span></a>
+        </div>
+      </div>
+
+      <div class="h-panel project-panel">
+        <div class="project-inner">
+          <div class="proj-number">Project 02</div>
+          <div class="proj-title">Community<br>Center</div>
+          <img class="proj-img" src="https://picsum.photos/1200/700?2">
+          <div class="proj-meta"><span>2024</span><span>Public · Civic</span><span>SketchUp · Enscape</span></div>
+          <p class="proj-desc">A neighbourhood hub integrating flexible programming spaces, a library wing, and outdoor terraces. The building section steps down toward the adjacent park, dissolving the boundary between interior and landscape.</p>
+          <a class="proj-link" href="project.html?id=community-center">View full project <span class="arrow">→</span></a>
+        </div>
+      </div>
+
+      <div class="h-panel project-panel">
+        <div class="project-inner">
+          <div class="proj-number">Project 03</div>
+          <div class="proj-title">Urban<br>Plaza</div>
+          <img class="proj-img" src="https://picsum.photos/1200/700?3">
+          <div class="proj-meta"><span>2023</span><span>Urban Design</span><span>Rhino · Grasshopper</span></div>
+          <p class="proj-desc">A micro-scale urban intervention reclaiming a neglected transit interchange. Parametric canopy structures shade a new market street, while planted bioswales manage stormwater and define pedestrian corridors.</p>
+          <a class="proj-link" href="project.html?id=urban-plaza">View full project <span class="arrow">→</span></a>
+        </div>
+      </div>
+
+      <div class="h-panel project-panel">
+        <div class="project-inner">
+          <div class="proj-number">Project 04</div>
+          <div class="proj-title">Adaptive<br>Reuse</div>
+          <img class="proj-img" src="https://picsum.photos/1200/700?4">
+          <div class="proj-meta"><span>2023</span><span>Heritage · Mixed-Use</span><span>Revit · Lumion</span></div>
+          <p class="proj-desc">Conversion of a former industrial warehouse into mixed-use artist live/work lofts. Existing structural steel is celebrated and extended with a new glass addition, creating dialogue between eras.</p>
+          <a class="proj-link" href="project.html?id=adaptive-reuse">View full project <span class="arrow">→</span></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═ CHAPTER 3: ACTIVITIES ═ -->
+  <div class="chapter" id="ch-activities">
+    <div class="h-track" id="track-activities">
+
+      <div class="h-panel activities-intro">
+        <h2>Beyond<br><em>Studio</em></h2>
+        <p>Competitions, workshops, and extracurricular explorations outside the academic curriculum.</p>
+      </div>
+
+      <div class="h-panel activity-panel">
+        <div class="act-year">2024</div>
+        <div class="act-title">Radical Housing<br>Design Competition</div>
+        <div><span class="act-badge award">Finalist</span><span class="act-badge">National</span></div>
+        <p class="act-desc">One of 12 finalists selected from 340 entries across Canada. The proposal explored prefabricated modular units stacked around shared gardens for missing-middle density.</p>
+      </div>
+
+      <div class="h-panel activity-panel">
+        <div class="act-year">2024</div>
+        <div class="act-title">Passive House<br>Detailing Workshop</div>
+        <div><span class="act-badge">Workshop</span></div>
+        <p class="act-desc">Intensive three-day workshop with certified Passive House designers, covering thermal bridge elimination, airtightness strategies, and mechanical system integration.</p>
+      </div>
+
+      <div class="h-panel activity-panel">
+        <div class="act-year">2023</div>
+        <div class="act-title">Steel Design<br>Student Challenge</div>
+        <div><span class="act-badge award">2nd Place</span><span class="act-badge">CISC</span></div>
+        <p class="act-desc">Collaborative team competition sponsored by the Canadian Institute of Steel Construction. Our team designed a long-span pedestrian bridge using innovative weathering steel members.</p>
+      </div>
+
+      <div class="h-panel activity-panel">
+        <div class="act-year">2023</div>
+        <div class="act-title">BIM<br>Symposium</div>
+        <div><span class="act-badge">Conference · Paper</span></div>
+        <p class="act-desc">Presented a student paper on BIM integration in early-stage design, exploring how parametric tools shorten the feedback loop between design intent and structural performance.</p>
+      </div>
+
+      <div class="h-panel activity-panel">
+        <div class="act-year">2022</div>
+        <div class="act-title">Open Architecture<br>Hackathon</div>
+        <div><span class="act-badge">72h Sprint</span><span class="act-badge award">Honourable Mention</span></div>
+        <p class="act-desc">72-hour design sprint exploring emergency transitional shelter for displaced communities using locally-sourced timber and flat-pack assembly systems.</p>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
-<!-- DOTS -->
-<div class="dots hidden" id="dots"></div>
+<div id="progress"></div>
 
 <script>
-const wrapper = document.getElementById("wrapper");
-const sections = document.querySelectorAll("section");
-const dotsContainer = document.getElementById("dots");
-let index = 0;
-let locked = false;
+/* ═══ CONFIG ═══ */
+const PANEL_COUNTS = { about: 3, projects: 5, activities: 6 };
+let activeChapter = 'about';
+const panelIdx = { about: 0, projects: 0, activities: 0 };
 
-/* create dots automatically */
-sections.forEach((_, i) => {
-    const d = document.createElement("div");
-    d.className = "dot";
-    if(i === 0) d.classList.add("active");
-    d.onclick = () => goTo(i);
-    dotsContainer.appendChild(d);
+/* ═══ SKILLS ═══ */
+const skills = [
+  { name:'Revit', pct:0.9 }, { name:'AutoCAD', pct:0.85 }, { name:'SketchUp', pct:0.8 },
+  { name:'Rhino 3D', pct:0.7 }, { name:'Grasshopper', pct:0.6 }, { name:'Enscape', pct:0.75 },
+  { name:'Photoshop', pct:0.65 }, { name:'InDesign', pct:0.7 }, { name:'Lumion', pct:0.55 },
+];
+const grid = document.getElementById('skillsGrid');
+skills.forEach((s,i) => {
+  const el = document.createElement('div');
+  el.className = 'skill-item';
+  el.innerHTML = `<div class="s-name">${s.name}</div>
+    <div class="skill-bar"><div class="skill-fill" style="width:${s.pct*100}%;animation-delay:${i*0.08}s;transform:scaleX(0)"></div></div>
+    <div class="s-num">${Math.round(s.pct*100)}%</div>`;
+  grid.appendChild(el);
 });
-const dots = document.querySelectorAll(".dot");
 
-function goTo(i){
-    index = Math.max(0, Math.min(i, sections.length-1));
-    wrapper.style.transform = `translateX(-${index * 100}vw)`;
-    dots.forEach(d => d.classList.remove("active"));
-    dots[index].classList.add("active");
-
-    /* Hide dots on first slide (index 0), show on all others */
-    if(index === 0){
-        dotsContainer.classList.add("hidden");
-    } else {
-        dotsContainer.classList.remove("hidden");
-    }
+/* ═══ DOTS ═══ */
+const progressEl = document.getElementById('progress');
+function buildDots(ch) {
+  progressEl.innerHTML = '';
+  for (let i = 0; i < PANEL_COUNTS[ch]; i++) {
+    const d = document.createElement('div');
+    d.className = 'pdot' + (i === panelIdx[ch] ? ' active' : '');
+    d.addEventListener('click', () => { panelIdx[ch] = i; applyTrack(ch); updateDots(ch); });
+    progressEl.appendChild(d);
+  }
+  checkDotVisibility();
+}
+function updateDots(ch) {
+  progressEl.querySelectorAll('.pdot').forEach((d, i) => d.classList.toggle('active', i === panelIdx[ch]));
+  checkDotVisibility();
+}
+function checkDotVisibility() {
+  progressEl.classList.toggle('hidden', activeChapter === 'about' && panelIdx['about'] === 0);
 }
 
-/* Click on project sections → redirect */
-document.querySelectorAll("section.project").forEach(section => {
-    section.addEventListener("click", () => {
-        const project = section.getAttribute("data-project");
-        window.location.href = `project.html?id=${project}`;
-    });
+/* ═══ CHAPTER SWITCH ═══ */
+function switchChapter(ch) {
+  if (ch === activeChapter) return;
+  document.getElementById('ch-' + activeChapter).classList.remove('active');
+  document.getElementById('ch-' + ch).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.ch === ch));
+  activeChapter = ch;
+  applyTrack(ch);
+  buildDots(ch);
+}
+
+/* ═══ TRACK ═══ */
+function applyTrack(ch) {
+  document.getElementById('track-' + ch).style.transform = `translateX(-${panelIdx[ch] * 100}vw)`;
+}
+
+/* ═══ SCROLL ═══ */
+let locked = false;
+
+function getActiveProjectInner() {
+  if (activeChapter !== 'projects') return null;
+  const idx = panelIdx['projects'];
+  if (idx === 0) return null; // intro panel
+  const inners = document.querySelectorAll('#ch-projects .project-inner');
+  return inners[idx - 1] || null;
+}
+
+function canScrollVertically(deltaY) {
+  const inner = getActiveProjectInner();
+  if (!inner) return false;
+  if (deltaY > 0) return inner.scrollTop + inner.clientHeight < inner.scrollHeight - 2;
+  if (deltaY < 0) return inner.scrollTop > 0;
+  return false;
+}
+
+window.addEventListener('wheel', e => {
+  if (canScrollVertically(e.deltaY)) return; // let natural vertical scroll happen
+  e.preventDefault();
+  if (locked) return;
+  locked = true;
+  const ch = activeChapter;
+  const max = PANEL_COUNTS[ch] - 1;
+  if (e.deltaY > 0) panelIdx[ch] = Math.min(panelIdx[ch] + 1, max);
+  else              panelIdx[ch] = Math.max(panelIdx[ch] - 1, 0);
+  applyTrack(ch);
+  updateDots(ch);
+  setTimeout(() => { locked = false; }, 750);
+}, { passive: false });
+
+/* ═══ KEYBOARD ═══ */
+window.addEventListener('keydown', e => {
+  const ch = activeChapter;
+  const max = PANEL_COUNTS[ch] - 1;
+  if (e.key === 'ArrowRight') { panelIdx[ch] = Math.min(panelIdx[ch]+1, max); applyTrack(ch); updateDots(ch); }
+  if (e.key === 'ArrowLeft')  { panelIdx[ch] = Math.max(panelIdx[ch]-1, 0);   applyTrack(ch); updateDots(ch); }
 });
 
-/* wheel scroll */
-window.addEventListener("wheel", e => {
-    if(locked) return;
-    locked = true;
-    if(e.deltaY > 0) index++;
-    else index--;
-    goTo(index);
-    setTimeout(() => locked = false, 700);
+/* ═══ CURSOR ═══ */
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top  = e.clientY + 'px';
+});
+document.addEventListener('mouseover', e => {
+  cursor.classList.toggle('big', !!e.target.closest('a, .nav-tab, .pdot'));
 });
 
-/* keyboard arrows */
-window.addEventListener("keydown", e => {
-    if(e.key === "ArrowRight") goTo(index+1);
-    if(e.key === "ArrowLeft") goTo(index-1);
-});
+/* ═══ INIT ═══ */
+buildDots('about');
 </script>
 </body>
 </html>
