@@ -301,7 +301,7 @@ nav {
 <body>
 
 <div id="cursor"></div>
-<input type="file" id="file-input" accept=".pdf">
+<input type="file" id="file-input" accept="ANISKIN.A3.pdf">
 
 <!-- NAV -->
 <nav>
@@ -459,7 +459,7 @@ if (projId) {
 // ── Load PDF from file ──
 async function loadPDF(file) {
   pdfName = file.name;
-  projTitleNav.textContent = file.name.replace('.pdf','');
+  projTitleNav.textContent = file.name.replace('ANISKIN.A3.pdf','');
   document.title = projTitleNav.textContent + ' — Daniel Aniskin';
 
   dropZone.classList.add('hidden');
