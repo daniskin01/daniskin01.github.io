@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8" />
 <title>Portfolio</title>
-
 <style>
 *{
     margin:0;
@@ -11,11 +10,9 @@
     box-sizing:border-box;
     font-family:Arial, sans-serif;
 }
-
 body{
     overflow:hidden;
 }
-
 /* ===== WRAPPER ===== */
 .wrapper{
     display:flex;
@@ -23,44 +20,36 @@ body{
     width:100vw;
     transition:transform 0.7s ease;
 }
-
 /* ===== SECTIONS ===== */
 section{
     min-width:100vw;
     height:100vh;
-
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
-
     padding:40px;
 }
-
 /* ===== TITLE PAGE STYLE ===== */
 .title-page{
     background:#111;
     color:white;
     text-align:center;
 }
-
 .title-page h1{
     font-size:4rem;
     letter-spacing:2px;
     margin-bottom:20px;
 }
-
 .title-page h2{
     font-weight:300;
     opacity:0.8;
 }
-
 .title-page p{
     margin-top:20px;
     max-width:600px;
     opacity:0.7;
 }
-
 /* ===== PROJECT SECTIONS ===== */
 section img{
     width:75%;
@@ -69,16 +58,38 @@ section img{
     margin:20px 0;
     border-radius:12px;
 }
-
 h1{
     font-size:3rem;
+}
+
+/* ===== CLICKABLE PROJECT SECTIONS ===== */
+section.project{
+    cursor: pointer;
+    position: relative;
+    transition: opacity 0.2s;
+}
+section.project::after{
+    content: "View Project →";
+    position: absolute;
+    bottom: 80px;
+    right: 40px;
+    background: #111;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+section.project:hover::after{
+    opacity: 1;
 }
 
 /* demo colors */
 #p1{ background:#f3f3f3; }
 #p2{ background:#e6e6e6; }
 #p3{ background:#dadada; }
-
 /* ===== DOTS ===== */
 .dots{
     position:fixed;
@@ -87,8 +98,12 @@ h1{
     transform:translateX(-50%);
     display:flex;
     gap:12px;
+    transition: opacity 0.4s;
 }
-
+.dots.hidden{
+    opacity: 0;
+    pointer-events: none;
+}
 .dot{
     width:12px;
     height:12px;
@@ -97,12 +112,10 @@ h1{
     cursor:pointer;
     transition:.3s;
 }
-
 .dot.active{
     background:#000;
     transform:scale(1.4);
 }
-
 /* back button */
 .back{
     position:fixed;
@@ -116,56 +129,41 @@ h1{
 }
 </style>
 </head>
-
 <body>
-
 <div class="wrapper" id="wrapper">
+    <!-- ===== TITLE PAGE ===== -->
+    <section class="title-page">
+        <h1>DANIEL ANISKIN</h1>
+        <h2>Architecture Technology Student</h2>
+        <p>
+            Portfolio of selected academic and professional projects.
+            Design focused on comfort, sustainability, and human experience.
+        </p>
+        <p style="margin-top:40px; opacity:.5;">Scroll →</p>
+    </section>
 
-<!-- ===== TITLE PAGE (NEW) ===== -->
-<section class="title-page">
-        
-    <h1>DANIEL ANISKIN</h1>
-    <h2>Architecture Technology Student</h2>
-    <p>
-        Portfolio of selected academic and professional projects.
-        Design focused on comfort, sustainability, and human experience.
-    </p>
-    <p style="margin-top:40px; opacity:.5;">Scroll →</p>
-
-
-    
-</section>
-
-
-<!-- ===== PROJECTS ===== -->
-<section id="p1">
-    <onclick="location.href='project.html'">
-    <h1>Residential House</h1>
-    <img src="p1.png">
-</section>
-
-<section id="p2">
-    <h1>Community Center</h1>
-    <img src="https://picsum.photos/1400/900?2">
-</section>
-
-<section id="p3">
-    <h1>Urban Plaza</h1>
-    <img src="https://picsum.photos/1400/900?3">
-</section>
-
+    <!-- ===== PROJECTS ===== -->
+    <section id="p1" class="project" data-project="residential-house">
+        <h1>Residential House</h1>
+        <img src="p1.png">
+    </section>
+    <section id="p2" class="project" data-project="community-center">
+        <h1>Community Center</h1>
+        <img src="https://picsum.photos/1400/900?2">
+    </section>
+    <section id="p3" class="project" data-project="urban-plaza">
+        <h1>Urban Plaza</h1>
+        <img src="https://picsum.photos/1400/900?3">
+    </section>
 </div>
 
-
 <!-- DOTS -->
-<div class="dots" id="dots"></div>
-
+<div class="dots hidden" id="dots"></div>
 
 <script>
 const wrapper = document.getElementById("wrapper");
 const sections = document.querySelectorAll("section");
 const dotsContainer = document.getElementById("dots");
-
 let index = 0;
 let locked = false;
 
@@ -177,28 +175,37 @@ sections.forEach((_, i) => {
     d.onclick = () => goTo(i);
     dotsContainer.appendChild(d);
 });
-
 const dots = document.querySelectorAll(".dot");
 
 function goTo(i){
     index = Math.max(0, Math.min(i, sections.length-1));
     wrapper.style.transform = `translateX(-${index * 100}vw)`;
-
     dots.forEach(d => d.classList.remove("active"));
     dots[index].classList.add("active");
+
+    /* Hide dots on first slide (index 0), show on all others */
+    if(index === 0){
+        dotsContainer.classList.add("hidden");
+    } else {
+        dotsContainer.classList.remove("hidden");
+    }
 }
+
+/* Click on project sections → redirect */
+document.querySelectorAll("section.project").forEach(section => {
+    section.addEventListener("click", () => {
+        const project = section.getAttribute("data-project");
+        window.location.href = `project.html?id=${project}`;
+    });
+});
 
 /* wheel scroll */
 window.addEventListener("wheel", e => {
     if(locked) return;
-
     locked = true;
-
     if(e.deltaY > 0) index++;
     else index--;
-
     goTo(index);
-
     setTimeout(() => locked = false, 700);
 });
 
@@ -208,6 +215,5 @@ window.addEventListener("keydown", e => {
     if(e.key === "ArrowLeft") goTo(index-1);
 });
 </script>
-
 </body>
 </html>
