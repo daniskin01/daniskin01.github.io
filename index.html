@@ -5,7 +5,6 @@
 <title>Projects</title>
 
 <style>
-/* RESET */
 *{
     margin:0;
     padding:0;
@@ -13,26 +12,27 @@
     font-family:Arial, sans-serif;
 }
 
-/* HORIZONTAL SCROLL SETUP */
-html, body{
-    height:100%;
-    overflow:hidden; /* remove vertical scroll */
+/* IMPORTANT FIX */
+body{
+    overflow-x:auto;   /* allow horizontal */
+    overflow-y:hidden; /* block vertical only */
 }
 
-/* container holds all sections side-by-side */
+/* container */
 .wrapper{
     display:flex;
     height:100vh;
-    width:max-content;
+    width:300vw; /* 3 sections = 300vw */
     scroll-snap-type:x mandatory;
-    overflow-x:auto;
     scroll-behavior:smooth;
 }
 
-/* each project section */
+/* each section */
 section{
-    flex:0 0 100vw;
+    width:100vw;
     height:100vh;
+
+    flex-shrink:0;
     scroll-snap-align:start;
 
     display:flex;
@@ -40,29 +40,22 @@ section{
     justify-content:center;
     align-items:center;
 
-    padding:60px;
+    padding:40px;
 }
 
 /* images */
-section img{
-    width:80%;
+img{
+    width:75%;
     height:60%;
     object-fit:cover;
     margin:20px 0;
-    border-radius:10px;
 }
 
-/* titles */
-h1{
-    font-size:3rem;
-}
+/* demo colors */
+#project1{ background:#f2f2f2; }
+#project2{ background:#e5e5e5; }
+#project3{ background:#d9d9d9; }
 
-/* colors just for demo */
-#project1{ background:#f4f4f4; }
-#project2{ background:#e6e6e6; }
-#project3{ background:#dcdcdc; }
-
-/* back button */
 .back{
     position:fixed;
     top:20px;
@@ -71,7 +64,6 @@ h1{
     color:white;
     padding:10px 15px;
     text-decoration:none;
-    z-index:10;
 }
 </style>
 </head>
@@ -83,32 +75,29 @@ h1{
 <div class="wrapper">
 
 <section id="project1">
-    <h1>Residential House</h1>
-    <img src="https://picsum.photos/1400/900?11">
-    <p>Description of project 1</p>
+    <h1>Project 1</h1>
+    <img src="https://picsum.photos/1400/900?1">
 </section>
 
 <section id="project2">
-    <h1>Community Center</h1>
-    <img src="https://picsum.photos/1400/900?12">
-    <p>Description of project 2</p>
+    <h1>Project 2</h1>
+    <img src="https://picsum.photos/1400/900?2">
 </section>
 
 <section id="project3">
-    <h1>Urban Plaza</h1>
-    <img src="https://picsum.photos/1400/900?13">
-    <p>Description of project 3</p>
+    <h1>Project 3</h1>
+    <img src="https://picsum.photos/1400/900?3">
 </section>
 
 </div>
 
-<!-- Wheel scroll → horizontal -->
 <script>
-const wrapper = document.querySelector('.wrapper');
-
-wrapper.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    wrapper.scrollLeft += e.deltaY;
+/* convert vertical mouse wheel → horizontal scroll */
+window.addEventListener("wheel", (e) => {
+    window.scrollBy({
+        left: e.deltaY * 2,
+        behavior: "smooth"
+    });
 });
 </script>
 
