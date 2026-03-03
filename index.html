@@ -93,14 +93,20 @@ nav{
 /* HORIZONTAL TRACK */
 .h-track{
   display:flex;
+  flex-wrap:nowrap;
   height:100%;
   transition: transform 0.75s cubic-bezier(0.77,0,0.18,1);
   will-change:transform;
 }
 .h-panel{
-  min-width:100vw; height:100%;
+  width:100vw;
+  min-width:100vw;
+  max-width:100vw;
+  height:100%;
   flex-shrink:0;
+  flex-grow:0;
   position:relative;
+  overflow:hidden;
 }
 
 /* ══ CHAPTER 1: ABOUT ══ */
@@ -163,6 +169,7 @@ nav{
 }
 .about-bio .d-val{ font-size:0.9rem; }
 
+/* ══ SKILLS — years of experience ══ */
 .about-skills{
   padding:60px 80px;
   display:flex; flex-direction:column;
@@ -178,22 +185,30 @@ nav{
   border-top:1px solid var(--ink);
 }
 .skill-item{
-  padding:24px 0 24px 0;
+  padding:22px 20px 22px 0;
   border-bottom:1px solid var(--concrete);
   border-right:1px solid var(--concrete);
-  padding-right:20px;
 }
 .skill-item:nth-child(3n){ border-right:none; }
-.skill-item .s-name{ font-size:0.8rem; letter-spacing:0.05em; margin-bottom:12px; }
-.skill-bar{ height:2px; background:var(--concrete); position:relative; }
-.skill-fill{
-  position:absolute; top:0; left:0; height:100%;
-  background:var(--accent);
-  transform-origin:left;
-  animation: fillBar 1.2s ease forwards;
+.skill-item .s-name{
+  font-size:0.8rem; letter-spacing:0.05em; margin-bottom:10px;
 }
-@keyframes fillBar{ to{ transform:scaleX(1); } }
-.skill-item .s-num{ margin-top:8px; font-size:0.6rem; opacity:0.4; }
+/* dot track */
+.skill-dots{
+  display:flex; gap:5px; align-items:center; margin-bottom:8px;
+}
+.skill-dot{
+  width:8px; height:8px; border-radius:50%;
+  border:1px solid var(--concrete);
+  transition: background 0.3s, border-color 0.3s;
+}
+.skill-dot.filled{
+  background:var(--accent);
+  border-color:var(--accent);
+}
+.skill-item .s-yrs{
+  font-size:0.6rem; opacity:0.4; letter-spacing:0.08em;
+}
 
 /* ══ CHAPTER 2: PROJECTS ══ */
 .projects-intro{
@@ -212,45 +227,42 @@ nav{
   max-width:360px; line-height:1.8;
 }
 
+/* ── NEW: two-column no-scroll project panel ── */
 .project-panel{
   background:var(--paper);
-  display:flex; flex-direction:column;
+  display:flex;
   overflow:hidden;
   border-left:1px solid var(--concrete);
+  width:100vw;      /* hard-lock to viewport width */
+  min-width:100vw;
+  max-width:100vw;
 }
-.project-inner{
-  flex:1; overflow-y:auto; overflow-x:hidden;
-  padding:50px 80px 80px;
-  scrollbar-width:thin; scrollbar-color:var(--concrete) transparent;
-}
-.project-inner::-webkit-scrollbar{ width:4px; }
-.project-inner::-webkit-scrollbar-thumb{ background:var(--concrete); }
 
+/* Left column */
+.proj-left{
+  width:45%;
+  min-width:45%;
+  max-width:45%;
+  display:flex; flex-direction:column;
+  justify-content:space-between;
+  padding:50px 50px 50px 80px;
+  border-right:1px solid var(--concrete);
+  flex-shrink:0;
+}
+.proj-top{} /* wrapper for number+title+desc */
 .proj-number{
   font-size:0.6rem; letter-spacing:0.2em;
-  text-transform:uppercase; opacity:0.35; margin-bottom:16px;
+  text-transform:uppercase; opacity:0.35; margin-bottom:14px;
 }
 .proj-title{
   font-family:'Playfair Display', serif;
-  font-size:clamp(2.5rem, 5vw, 4.5rem);
-  font-weight:700; line-height:1; margin-bottom:30px;
-}
-.proj-img{
-  width:100%; max-height:55vh; object-fit:cover;
-  display:block; margin-bottom:30px;
-  filter:grayscale(20%);
-  transition:filter 0.4s;
-}
-.project-panel:hover .proj-img{ filter:grayscale(0%); }
-.proj-meta{
-  display:flex; gap:40px; margin-bottom:24px;
-  font-size:0.7rem; letter-spacing:0.1em;
-  text-transform:uppercase; opacity:0.5;
+  font-size:clamp(2rem, 4vw, 3.8rem);
+  font-weight:700; line-height:1; margin-bottom:24px;
 }
 .proj-desc{
   font-family:'Playfair Display', serif;
-  font-size:1rem; line-height:1.75;
-  max-width:600px; margin-bottom:36px;
+  font-size:0.95rem; line-height:1.75;
+  max-width:440px;
 }
 .proj-link{
   display:inline-flex; align-items:center; gap:12px;
@@ -258,10 +270,45 @@ nav{
   text-transform:uppercase; text-decoration:none;
   color:var(--ink); border-bottom:1px solid var(--ink);
   padding-bottom:3px; transition:color 0.2s, border-color 0.2s;
+  align-self:flex-start;
 }
 .proj-link:hover{ color:var(--accent); border-color:var(--accent); }
 .proj-link .arrow{ transition:transform 0.2s; }
 .proj-link:hover .arrow{ transform:translateX(6px); }
+
+/* Right column */
+.proj-right{
+  flex:1;
+  min-width:0;
+  display:flex; flex-direction:column;
+  padding:50px 60px 50px 50px;
+  gap:24px;
+  overflow:hidden;
+}
+.proj-img{
+  width:100%;
+  flex:1;
+  object-fit:cover;
+  display:block;
+  min-height:0;
+  filter:grayscale(20%);
+  transition:filter 0.4s;
+}
+.project-panel:hover .proj-img{ filter:grayscale(0%); }
+.proj-meta{
+  display:flex; gap:30px; flex-shrink:0;
+  font-size:0.68rem; letter-spacing:0.1em;
+  text-transform:uppercase; opacity:0.5;
+  flex-wrap:wrap;
+}
+.proj-meta-item{
+  display:flex; flex-direction:column; gap:4px;
+}
+.proj-meta-label{
+  font-size:0.55rem; letter-spacing:0.15em; opacity:0.6;
+  text-transform:uppercase;
+}
+.proj-meta-val{ font-size:0.7rem; opacity:1; }
 
 /* ══ CHAPTER 3: ACTIVITIES ══ */
 .activities-intro{
@@ -358,12 +405,26 @@ nav{
       <div class="h-panel about-bio">
         <div>
           <div class="label">Biography</div>
-          <p>Graduated from Pickering College in Newmarket, Ontario in 2022, <br>
-            currently completing studies in Architectural Technology at Humber College,<br>
-            with graduation expected in 2026. Passion lies in designing, <br>
-            planning, and adapting spaces to meet the needs of the people who use them.<br> 
-            My experience includes Revit, AutoCAD, Twinmotion, Adobe Suite, Microsoft Office,<br>
-            HTML, GDScript, and other tools that help bring ideas to life.</p>
+          <p style="font-size:1.05rem; line-height:2.1; font-family:'Playfair Display',serif;">
+            Graduated from
+            <span style="font-style:italic; color:var(--accent);">Pickering College</span>
+            in Newmarket, Ontario in&nbsp;2022&nbsp;—&nbsp;currently completing studies in
+            <span style="font-weight:700;">Architectural Technology</span>
+            at Humber College, with graduation expected in
+            <span style="font-style:italic;">2026.</span>
+            <br><br>
+            <span style="font-size:0.95rem; opacity:0.72;">
+            Passion lies in
+            </span><span style="font-style:italic; font-size:1.08rem; color:var(--ink);">designing, planning,</span>
+            <span style="font-size:0.95rem; opacity:0.72;">
+            and adapting spaces to meet the needs of the people who use them.
+            </span>
+            <br><br>
+            <span style="font-size:0.78rem; opacity:0.45; letter-spacing:0.06em; text-transform:uppercase;">Tools —&nbsp;</span><span style="font-size:0.9rem;"><span style="color:var(--accent); font-style:italic;">Revit</span>,
+            AutoCAD, Twinmotion,
+            <span style="font-style:italic;">Adobe Suite</span>,
+            Microsoft Office, HTML, GDScript</span><span style="font-size:0.8rem; opacity:0.45;">&nbsp;— and whatever else brings an idea to life.</span>
+          </p>
         </div>
         <div class="details">
           <div>
@@ -399,50 +460,86 @@ nav{
 
       <div class="h-panel projects-intro">
         <h2>Selected<br><em>Work</em></h2>
-        <p>Academic and professional projects. Scroll right to explore each one, or scroll down within a project for full details.</p>
+        <p>Academic and professional projects. Scroll right to explore each one.</p>
       </div>
 
+      <!-- Project 01 -->
       <div class="h-panel project-panel">
-        <div class="project-inner">
-          <div class="proj-number">Project 01</div>
-          <div class="proj-title">Residential<br>House</div>
-          <img class="proj-img" src="p1.png" onerror="this.src='https://picsum.photos/1200/700?1'">
-          <div class="proj-meta"><span>2024</span><span>Residential</span><span>Revit · AutoCAD</span></div>
-          <p class="proj-desc">A single-family dwelling designed around passive solar principles and cross-ventilation. The layout prioritizes communal living on the ground floor while providing private retreats above, connected by a central light well.</p>
+        <div class="proj-left">
+          <div class="proj-top">
+            <div class="proj-number">Project 01</div>
+            <div class="proj-title">Residential<br>House</div>
+            <p class="proj-desc">A single-family dwelling designed around passive solar principles and cross-ventilation. The layout prioritizes communal living on the ground floor while providing private retreats above, connected by a central light well.</p>
+          </div>
           <a class="proj-link" href="project.html?id=residential-house">View full project <span class="arrow">→</span></a>
         </div>
+        <div class="proj-right">
+          <img class="proj-img" src="p1.png" onerror="this.src='https://picsum.photos/1200/700?1'" alt="Residential House">
+          <div class="proj-meta">
+            <div class="proj-meta-item"><span class="proj-meta-label">Year</span><span class="proj-meta-val">2024</span></div>
+            <div class="proj-meta-item"><span class="proj-meta-label">Type</span><span class="proj-meta-val">Residential</span></div>
+            <div class="proj-meta-item"><span class="proj-meta-label">Software</span><span class="proj-meta-val">Revit · AutoCAD</span></div>
+          </div>
+        </div>
       </div>
 
+      <!-- Project 02 -->
       <div class="h-panel project-panel">
-        <div class="project-inner">
-          <div class="proj-number">Project 02</div>
-          <div class="proj-title">Community<br>Center</div>
-          <img class="proj-img" src="https://picsum.photos/1200/700?2">
-          <div class="proj-meta"><span>2024</span><span>Public · Civic</span><span>SketchUp · Enscape</span></div>
-          <p class="proj-desc">A neighbourhood hub integrating flexible programming spaces, a library wing, and outdoor terraces. The building section steps down toward the adjacent park, dissolving the boundary between interior and landscape.</p>
+        <div class="proj-left">
+          <div class="proj-top">
+            <div class="proj-number">Project 02</div>
+            <div class="proj-title">Community<br>Center</div>
+            <p class="proj-desc">A neighbourhood hub integrating flexible programming spaces, a library wing, and outdoor terraces. The building section steps down toward the adjacent park, dissolving the boundary between interior and landscape.</p>
+          </div>
           <a class="proj-link" href="project.html?id=community-center">View full project <span class="arrow">→</span></a>
         </div>
-      </div>
-
-      <div class="h-panel project-panel">
-        <div class="project-inner">
-          <div class="proj-number">Project 03</div>
-          <div class="proj-title">Urban<br>Plaza</div>
-          <img class="proj-img" src="https://picsum.photos/1200/700?3">
-          <div class="proj-meta"><span>2023</span><span>Urban Design</span><span>Rhino · Grasshopper</span></div>
-          <p class="proj-desc">A micro-scale urban intervention reclaiming a neglected transit interchange. Parametric canopy structures shade a new market street, while planted bioswales manage stormwater and define pedestrian corridors.</p>
-          <a class="proj-link" href="project.html?id=urban-plaza">View full project <span class="arrow">→</span></a>
+        <div class="proj-right">
+          <img class="proj-img" src="https://picsum.photos/1200/700?2" alt="Community Center">
+          <div class="proj-meta">
+            <div class="proj-meta-item"><span class="proj-meta-label">Year</span><span class="proj-meta-val">2024</span></div>
+            <div class="proj-meta-item"><span class="proj-meta-label">Type</span><span class="proj-meta-val">Public · Civic</span></div>
+            <div class="proj-meta-item"><span class="proj-meta-label">Software</span><span class="proj-meta-val">SketchUp · Enscape</span></div>
+          </div>
         </div>
       </div>
 
+      <!-- Project 03 -->
       <div class="h-panel project-panel">
-        <div class="project-inner">
-          <div class="proj-number">Project 04</div>
-          <div class="proj-title">Adaptive<br>Reuse</div>
-          <img class="proj-img" src="https://picsum.photos/1200/700?4">
-          <div class="proj-meta"><span>2023</span><span>Heritage · Mixed-Use</span><span>Revit · Lumion</span></div>
-          <p class="proj-desc">Conversion of a former industrial warehouse into mixed-use artist live/work lofts. Existing structural steel is celebrated and extended with a new glass addition, creating dialogue between eras.</p>
+        <div class="proj-left">
+          <div class="proj-top">
+            <div class="proj-number">Project 03</div>
+            <div class="proj-title">Urban<br>Plaza</div>
+            <p class="proj-desc">A micro-scale urban intervention reclaiming a neglected transit interchange. Parametric canopy structures shade a new market street, while planted bioswales manage stormwater and define pedestrian corridors.</p>
+          </div>
+          <a class="proj-link" href="project.html?id=urban-plaza">View full project <span class="arrow">→</span></a>
+        </div>
+        <div class="proj-right">
+          <img class="proj-img" src="https://picsum.photos/1200/700?3" alt="Urban Plaza">
+          <div class="proj-meta">
+            <div class="proj-meta-item"><span class="proj-meta-label">Year</span><span class="proj-meta-val">2023</span></div>
+            <div class="proj-meta-item"><span class="proj-meta-label">Type</span><span class="proj-meta-val">Urban Design</span></div>
+            <div class="proj-meta-item"><span class="proj-meta-label">Software</span><span class="proj-meta-val">Rhino · Grasshopper</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 04 -->
+      <div class="h-panel project-panel">
+        <div class="proj-left">
+          <div class="proj-top">
+            <div class="proj-number">Project 04</div>
+            <div class="proj-title">Adaptive<br>Reuse</div>
+            <p class="proj-desc">Conversion of a former industrial warehouse into mixed-use artist live/work lofts. Existing structural steel is celebrated and extended with a new glass addition, creating dialogue between eras.</p>
+          </div>
           <a class="proj-link" href="project.html?id=adaptive-reuse">View full project <span class="arrow">→</span></a>
+        </div>
+        <div class="proj-right">
+          <img class="proj-img" src="https://picsum.photos/1200/700?4" alt="Adaptive Reuse">
+          <div class="proj-meta">
+            <div class="proj-meta-item"><span class="proj-meta-label">Year</span><span class="proj-meta-val">2023</span></div>
+            <div class="proj-meta-item"><span class="proj-meta-label">Type</span><span class="proj-meta-val">Heritage · Mixed-Use</span></div>
+            <div class="proj-meta-item"><span class="proj-meta-label">Software</span><span class="proj-meta-val">Revit · Lumion</span></div>
+          </div>
         </div>
       </div>
 
@@ -506,19 +603,26 @@ const PANEL_COUNTS = { about: 3, projects: 5, activities: 6 };
 let activeChapter = 'about';
 const panelIdx = { about: 0, projects: 0, activities: 0 };
 
-/* ═══ SKILLS ═══ */
+/* ═══ SKILLS — years of experience ══ */
 const skills = [
-  { name:'Revit', pct:0.9 }, { name:'AutoCAD', pct:0.85 }, { name:'SketchUp', pct:0.8 },
-  { name:'Rhino 3D', pct:0.7 }, { name:'Grasshopper', pct:0.6 }, { name:'Enscape', pct:0.75 },
-  { name:'Photoshop', pct:0.65 }, { name:'InDesign', pct:0.7 }, { name:'Lumion', pct:0.55 },
+  { name:'Revit',       yrs:3, max:5 },
+  { name:'AutoCAD',     yrs:3, max:5 },
+  { name:'Twinmotion',    yrs:3, max:5 },
+  { name:'Photoshop',   yrs:3, max:5 },
+  { name:'InDesign',    yrs:3, max:5 },
 ];
+
 const grid = document.getElementById('skillsGrid');
-skills.forEach((s,i) => {
+skills.forEach(s => {
   const el = document.createElement('div');
   el.className = 'skill-item';
-  el.innerHTML = `<div class="s-name">${s.name}</div>
-    <div class="skill-bar"><div class="skill-fill" style="width:${s.pct*100}%;animation-delay:${i*0.08}s;transform:scaleX(0)"></div></div>
-    <div class="s-num">${Math.round(s.pct*100)}%</div>`;
+  const dots = Array.from({length: s.max}, (_, i) =>
+    `<div class="skill-dot${i < s.yrs ? ' filled' : ''}"></div>`
+  ).join('');
+  el.innerHTML = `
+    <div class="s-name">${s.name}</div>
+    <div class="skill-dots">${dots}</div>
+    <div class="s-yrs">${s.yrs} yr${s.yrs !== 1 ? 's' : ''} experience</div>`;
   grid.appendChild(el);
 });
 
@@ -561,24 +665,7 @@ function applyTrack(ch) {
 /* ═══ SCROLL ═══ */
 let locked = false;
 
-function getActiveProjectInner() {
-  if (activeChapter !== 'projects') return null;
-  const idx = panelIdx['projects'];
-  if (idx === 0) return null; // intro panel
-  const inners = document.querySelectorAll('#ch-projects .project-inner');
-  return inners[idx - 1] || null;
-}
-
-function canScrollVertically(deltaY) {
-  const inner = getActiveProjectInner();
-  if (!inner) return false;
-  if (deltaY > 0) return inner.scrollTop + inner.clientHeight < inner.scrollHeight - 2;
-  if (deltaY < 0) return inner.scrollTop > 0;
-  return false;
-}
-
 window.addEventListener('wheel', e => {
-  if (canScrollVertically(e.deltaY)) return; // let natural vertical scroll happen
   e.preventDefault();
   if (locked) return;
   locked = true;
