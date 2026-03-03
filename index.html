@@ -2,82 +2,115 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>My Projects</title>
+<title>Projects</title>
 
 <style>
+/* RESET */
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial;
+    font-family:Arial, sans-serif;
 }
 
-body{
-    background:#111;
-}
-
-/* PROJECT BLOCK */
-.project{
-    position:relative;
-    height:70vh;
-    overflow:hidden;
-}
-
-.project img{
-    width:100%;
+/* HORIZONTAL SCROLL SETUP */
+html, body{
     height:100%;
+    overflow:hidden; /* remove vertical scroll */
+}
+
+/* container holds all sections side-by-side */
+.wrapper{
+    display:flex;
+    height:100vh;
+    width:max-content;
+    scroll-snap-type:x mandatory;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+}
+
+/* each project section */
+section{
+    flex:0 0 100vw;
+    height:100vh;
+    scroll-snap-align:start;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    padding:60px;
+}
+
+/* images */
+section img{
+    width:80%;
+    height:60%;
     object-fit:cover;
-    filter:brightness(70%);
-    transition:.4s;
+    margin:20px 0;
+    border-radius:10px;
 }
 
-.project:hover img{
-    filter:brightness(100%);
-    transform:scale(1.05);
-}
-
-/* TITLE */
-.title{
-    position:absolute;
-    bottom:40px;
-    left:40px;
-    color:white;
+/* titles */
+h1{
     font-size:3rem;
-    font-weight:bold;
 }
 
-a{
-    text-decoration:none;
+/* colors just for demo */
+#project1{ background:#f4f4f4; }
+#project2{ background:#e6e6e6; }
+#project3{ background:#dcdcdc; }
+
+/* back button */
+.back{
+    position:fixed;
+    top:20px;
+    left:20px;
+    background:black;
     color:white;
+    padding:10px 15px;
+    text-decoration:none;
+    z-index:10;
 }
 </style>
 </head>
 
 <body>
 
-<!-- Project 1 -->
-<a href="projects.html#project1">
-<div class="project">
-    <img src="https://picsum.photos/1600/900?1">
-    <div class="title">Residential House</div>
-</div>
-</a>
+<a href="index.html" class="back">← Back</a>
 
-<!-- Project 2 -->
-<a href="projects.html#project2">
-<div class="project">
-    <img src="https://picsum.photos/1600/900?2">
-    <div class="title">Community Center</div>
-</div>
-</a>
+<div class="wrapper">
 
-<!-- Project 3 -->
-<a href="projects.html#project3">
-<div class="project">
-    <img src="https://picsum.photos/1600/900?3">
-    <div class="title">Urban Plaza</div>
+<section id="project1">
+    <h1>Residential House</h1>
+    <img src="https://picsum.photos/1400/900?11">
+    <p>Description of project 1</p>
+</section>
+
+<section id="project2">
+    <h1>Community Center</h1>
+    <img src="https://picsum.photos/1400/900?12">
+    <p>Description of project 2</p>
+</section>
+
+<section id="project3">
+    <h1>Urban Plaza</h1>
+    <img src="https://picsum.photos/1400/900?13">
+    <p>Description of project 3</p>
+</section>
+
 </div>
-</a>
+
+<!-- Wheel scroll → horizontal -->
+<script>
+const wrapper = document.querySelector('.wrapper');
+
+wrapper.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    wrapper.scrollLeft += e.deltaY;
+});
+</script>
 
 </body>
 </html>
