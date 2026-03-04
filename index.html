@@ -48,13 +48,10 @@ nav{
   flex:1;
   display:flex; align-items:center; justify-content:center;
   font-family:'Playfair Display', serif;
-  font-size:0.78rem;
-  letter-spacing:0.14em;
-  text-transform:uppercase;
-  cursor:none;
+  font-size:0.78rem; letter-spacing:0.14em;
+  text-transform:uppercase; cursor:none;
   border-right:1px solid var(--ink);
-  position:relative;
-  overflow:hidden;
+  position:relative; overflow:hidden;
   transition: background 0.3s, color 0.3s;
   user-select:none;
 }
@@ -65,10 +62,8 @@ nav{
   font-family:'DM Mono',monospace;
 }
 .nav-tab::after{
-  content:'';
-  position:absolute; bottom:0; left:0;
-  width:100%; height:3px;
-  background:var(--accent);
+  content:''; position:absolute; bottom:0; left:0;
+  width:100%; height:3px; background:var(--accent);
   transform:scaleX(0); transform-origin:left;
   transition:transform 0.35s ease;
 }
@@ -81,8 +76,6 @@ nav{
   top:var(--nav-h); left:0; right:0; bottom:0;
   overflow:hidden;
 }
-
-/* CHAPTER */
 .chapter{
   position:absolute; top:0; left:0;
   width:100%; height:100%;
@@ -90,30 +83,21 @@ nav{
 }
 .chapter.active{ display:block; }
 
-/* HORIZONTAL TRACK */
 .h-track{
-  display:flex;
-  flex-wrap:nowrap;
-  height:100%;
+  display:flex; flex-wrap:nowrap; height:100%;
   transition: transform 0.75s cubic-bezier(0.77,0,0.18,1);
   will-change:transform;
 }
 .h-panel{
-  width:100vw;
-  min-width:100vw;
-  max-width:100vw;
-  height:100%;
-  flex-shrink:0;
-  flex-grow:0;
-  position:relative;
-  overflow:hidden;
+  width:100vw; min-width:100vw; max-width:100vw;
+  height:100%; flex-shrink:0; flex-grow:0;
+  position:relative; overflow:hidden;
 }
 
-/* ══ CHAPTER 1: ABOUT ══ */
+/* ══ ABOUT ══ */
 .about-hero{
   display:flex; flex-direction:column;
-  justify-content:flex-end;
-  padding:60px 80px;
+  justify-content:flex-end; padding:60px 80px;
   background:var(--paper);
 }
 .about-hero .line-v{
@@ -124,16 +108,11 @@ nav{
 .about-hero .big-name{
   font-family:'Playfair Display', serif;
   font-size:clamp(4rem, 10vw, 9rem);
-  font-weight:900;
-  line-height:0.9;
-  letter-spacing:-0.02em;
+  font-weight:900; line-height:0.9; letter-spacing:-0.02em;
 }
-.about-hero .big-name em{
-  font-style:italic; color:var(--accent);
-}
+.about-hero .big-name em{ font-style:italic; color:var(--accent); }
 .about-hero .role{
-  margin-top:28px;
-  font-size:0.75rem; letter-spacing:0.2em;
+  margin-top:28px; font-size:0.75rem; letter-spacing:0.2em;
   text-transform:uppercase; opacity:0.5;
 }
 .scroll-hint{
@@ -142,25 +121,16 @@ nav{
   text-transform:uppercase; opacity:0.35;
   display:flex; align-items:center; gap:10px;
 }
-.scroll-hint::before{
-  content:''; display:block; width:40px; height:1px;
-  background:var(--ink);
-}
+.scroll-hint::before{ content:''; display:block; width:40px; height:1px; background:var(--ink); }
 
 .about-bio{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  align-items:center;
-  padding:60px 80px; gap:60px;
+  display:grid; grid-template-columns:1fr 1fr;
+  align-items:center; padding:60px 80px; gap:60px;
   background:var(--paper);
 }
 .about-bio .label{
   font-size:0.6rem; letter-spacing:0.2em;
   text-transform:uppercase; opacity:0.4; margin-bottom:16px;
-}
-.about-bio p{
-  font-size:1.05rem; line-height:1.8;
-  font-family:'Playfair Display', serif;
 }
 .about-bio .details{ display:flex; flex-direction:column; gap:28px; }
 .about-bio .d-label{
@@ -169,12 +139,9 @@ nav{
 }
 .about-bio .d-val{ font-size:0.9rem; }
 
-/* ══ SKILLS — years of experience ══ */
 .about-skills{
-  padding:60px 80px;
-  display:flex; flex-direction:column;
-  justify-content:center;
-  background:var(--paper);
+  padding:60px 80px; display:flex; flex-direction:column;
+  justify-content:center; background:var(--paper);
 }
 .about-skills h2{
   font-family:'Playfair Display', serif;
@@ -190,27 +157,17 @@ nav{
   border-right:1px solid var(--concrete);
 }
 .skill-item:nth-child(3n){ border-right:none; }
-.skill-item .s-name{
-  font-size:0.8rem; letter-spacing:0.05em; margin-bottom:10px;
-}
-/* dot track */
-.skill-dots{
-  display:flex; gap:5px; align-items:center; margin-bottom:8px;
-}
+.skill-item .s-name{ font-size:0.8rem; letter-spacing:0.05em; margin-bottom:10px; }
+.skill-dots{ display:flex; gap:5px; align-items:center; margin-bottom:8px; }
 .skill-dot{
   width:8px; height:8px; border-radius:50%;
   border:1px solid var(--concrete);
   transition: background 0.3s, border-color 0.3s;
 }
-.skill-dot.filled{
-  background:var(--accent);
-  border-color:var(--accent);
-}
-.skill-item .s-yrs{
-  font-size:0.6rem; opacity:0.4; letter-spacing:0.08em;
-}
+.skill-dot.filled{ background:var(--accent); border-color:var(--accent); }
+.skill-item .s-yrs{ font-size:0.6rem; opacity:0.4; letter-spacing:0.08em; }
 
-/* ══ CHAPTER 2: PROJECTS ══ */
+/* ══ PROJECTS ══ */
 .projects-intro{
   background:var(--ink); color:var(--paper);
   display:flex; flex-direction:column;
@@ -226,30 +183,17 @@ nav{
   text-transform:uppercase; opacity:0.4;
   max-width:360px; line-height:1.8;
 }
-
-/* ── NEW: two-column no-scroll project panel ── */
 .project-panel{
-  background:var(--paper);
-  display:flex;
-  overflow:hidden;
+  background:var(--paper); display:flex; overflow:hidden;
   border-left:1px solid var(--concrete);
-  width:100vw;      /* hard-lock to viewport width */
-  min-width:100vw;
-  max-width:100vw;
+  width:100vw; min-width:100vw; max-width:100vw;
 }
-
-/* Left column */
 .proj-left{
-  width:45%;
-  min-width:45%;
-  max-width:45%;
-  display:flex; flex-direction:column;
-  justify-content:space-between;
+  width:45%; min-width:45%; max-width:45%;
+  display:flex; flex-direction:column; justify-content:space-between;
   padding:50px 50px 50px 80px;
-  border-right:1px solid var(--concrete);
-  flex-shrink:0;
+  border-right:1px solid var(--concrete); flex-shrink:0;
 }
-.proj-top{} /* wrapper for number+title+desc */
 .proj-number{
   font-size:0.6rem; letter-spacing:0.2em;
   text-transform:uppercase; opacity:0.35; margin-bottom:14px;
@@ -261,8 +205,7 @@ nav{
 }
 .proj-desc{
   font-family:'Playfair Display', serif;
-  font-size:0.95rem; line-height:1.75;
-  max-width:440px;
+  font-size:0.95rem; line-height:1.75; max-width:440px;
 }
 .proj-link{
   display:inline-flex; align-items:center; gap:12px;
@@ -275,85 +218,187 @@ nav{
 .proj-link:hover{ color:var(--accent); border-color:var(--accent); }
 .proj-link .arrow{ transition:transform 0.2s; }
 .proj-link:hover .arrow{ transform:translateX(6px); }
-
-/* Right column */
 .proj-right{
-  flex:1;
-  min-width:0;
-  display:flex; flex-direction:column;
-  padding:50px 60px 50px 50px;
-  gap:24px;
-  overflow:hidden;
+  flex:1; min-width:0; display:flex; flex-direction:column;
+  padding:50px 60px 50px 50px; gap:24px; overflow:hidden;
 }
 .proj-img{
-  width:100%;
-  flex:1;
-  object-fit:cover;
-  display:block;
-  min-height:0;
-  filter:grayscale(20%);
-  transition:filter 0.4s;
+  width:100%; flex:1; object-fit:cover; display:block; min-height:0;
+  filter:grayscale(20%); transition:filter 0.4s;
 }
 .project-panel:hover .proj-img{ filter:grayscale(0%); }
 .proj-meta{
   display:flex; gap:30px; flex-shrink:0;
   font-size:0.68rem; letter-spacing:0.1em;
-  text-transform:uppercase; opacity:0.5;
-  flex-wrap:wrap;
+  text-transform:uppercase; opacity:0.5; flex-wrap:wrap;
 }
-.proj-meta-item{
-  display:flex; flex-direction:column; gap:4px;
-}
-.proj-meta-label{
-  font-size:0.55rem; letter-spacing:0.15em; opacity:0.6;
-  text-transform:uppercase;
-}
+.proj-meta-item{ display:flex; flex-direction:column; gap:4px; }
+.proj-meta-label{ font-size:0.55rem; letter-spacing:0.15em; opacity:0.6; text-transform:uppercase; }
 .proj-meta-val{ font-size:0.7rem; opacity:1; }
 
-/* ══ CHAPTER 3: ACTIVITIES ══ */
-.activities-intro{
-  background:var(--accent); color:var(--paper);
+/* ══════════════════════════════════════
+   DESIGN SECTION — editorial / vibrant
+══════════════════════════════════════ */
+
+/* Intro panel — full black with oversized rotated text */
+.design-intro{
+  background:var(--ink); color:var(--paper);
   display:flex; flex-direction:column;
   justify-content:center; padding:60px 80px;
+  position:relative; overflow:hidden;
 }
-.activities-intro h2{
+.design-intro::before{
+  content:'DESIGN';
+  position:absolute; right:-40px; top:50%;
+  transform:translateY(-50%) rotate(90deg);
   font-family:'Playfair Display', serif;
-  font-size:clamp(2.5rem, 7vw, 6rem);
-  font-weight:900; line-height:0.95; margin-bottom:30px;
+  font-size:clamp(5rem,14vw,13rem);
+  font-weight:900; letter-spacing:-0.04em;
+  opacity:0.04; white-space:nowrap;
+  pointer-events:none;
 }
-.activities-intro p{
-  font-size:0.75rem; letter-spacing:0.12em;
-  text-transform:uppercase; opacity:0.75;
-  max-width:340px; line-height:1.8;
+.design-intro h2{
+  font-family:'Playfair Display', serif;
+  font-size:clamp(2.5rem, 7vw, 6.5rem);
+  font-weight:900; line-height:0.88;
+  margin-bottom:32px; position:relative;
+}
+.design-intro h2 em{ font-style:italic; color:var(--accent); }
+.design-intro p{
+  font-size:0.72rem; letter-spacing:0.14em;
+  text-transform:uppercase; opacity:0.4; max-width:340px; line-height:2;
+}
+.design-intro .intro-rule{
+  width:48px; height:2px; background:var(--accent); margin-bottom:28px;
 }
 
-.activity-panel{
-  padding:50px 80px;
+/* Design activity panel — split layout with image */
+.design-panel{
+  display:flex; width:100vw; min-width:100vw; max-width:100vw;
+  height:100%; overflow:hidden;
+}
+
+/* Left: big image taking 55% */
+.dp-image{
+  width:55%; min-width:55%; flex-shrink:0;
+  position:relative; overflow:hidden;
+  background:#1a1a18;
+}
+.dp-image img{
+  width:100%; height:100%; object-fit:cover;
+  display:block;
+  filter:grayscale(15%) contrast(1.05);
+  transition: filter 0.5s, transform 0.6s;
+}
+.design-panel:hover .dp-image img{
+  filter:grayscale(0%) contrast(1.08);
+  transform:scale(1.03);
+}
+/* image placeholder when no src */
+.dp-image .img-placeholder{
+  width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, #1c1c1a 0%, #2e2b26 50%, #1a1916 100%);
+}
+.dp-image .img-placeholder span{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(4rem,8vw,8rem);
+  font-weight:900; font-style:italic;
+  color:rgba(255,255,255,0.04);
+  letter-spacing:-0.03em; user-select:none;
+  white-space:nowrap;
+}
+/* overlay accent stripe on image */
+.dp-image::after{
+  content:'';
+  position:absolute; bottom:0; left:0;
+  width:4px; height:100%;
+  background:var(--accent);
+}
+/* year tag on image */
+.dp-year-tag{
+  position:absolute; top:28px; left:28px;
+  font-size:0.6rem; letter-spacing:0.22em;
+  text-transform:uppercase; color:rgba(255,255,255,0.55);
+  background:rgba(0,0,0,0.45); padding:5px 10px;
+  backdrop-filter:blur(4px);
+}
+
+/* Right: content */
+.dp-content{
+  flex:1; min-width:0;
   display:flex; flex-direction:column;
-  justify-content:center;
+  justify-content:space-between;
+  padding:44px 60px 44px 50px;
   background:var(--paper);
   border-left:1px solid var(--concrete);
+  position:relative;
 }
-.act-year{
-  font-size:0.6rem; letter-spacing:0.2em;
-  text-transform:uppercase; opacity:0.35; margin-bottom:10px;
-}
-.act-title{
+
+/* Big decorative index number */
+.dp-index{
+  position:absolute; top:-12px; right:44px;
   font-family:'Playfair Display', serif;
-  font-size:clamp(1.8rem, 3.5vw, 3rem);
-  font-weight:700; line-height:1.1; margin-bottom:20px;
+  font-size:clamp(6rem,12vw,10rem);
+  font-weight:900; font-style:italic;
+  line-height:1; color:var(--concrete);
+  opacity:0.25; pointer-events:none;
+  user-select:none;
 }
-.act-badge{
-  display:inline-block;
-  font-size:0.62rem; letter-spacing:0.12em;
+
+.dp-top{}
+.dp-badges{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+.dp-badge{
+  font-size:0.58rem; letter-spacing:0.14em;
   text-transform:uppercase; border:1px solid var(--ink);
-  padding:4px 10px; margin-bottom:20px; margin-right:8px;
+  padding:4px 10px; white-space:nowrap;
 }
-.act-badge.award{ background:var(--ink); color:var(--paper); }
-.act-desc{
+.dp-badge.highlight{ background:var(--accent); color:var(--paper); border-color:var(--accent); }
+.dp-badge.dark{ background:var(--ink); color:var(--paper); }
+
+.dp-title{
   font-family:'Playfair Display', serif;
-  font-size:0.95rem; line-height:1.7;
-  max-width:500px; opacity:0.85;
+  font-size:clamp(1.6rem, 3vw, 2.8rem);
+  font-weight:700; line-height:1.05;
+  margin-bottom:20px; letter-spacing:-0.01em;
+}
+.dp-desc{
+  font-family:'Playfair Display', serif;
+  font-size:0.88rem; line-height:1.8;
+  opacity:0.8; max-width:460px;
+}
+
+.dp-bottom{ display:flex; align-items:flex-end; justify-content:space-between; }
+.dp-link{
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase;
+  text-decoration:none; color:var(--ink);
+  border-bottom:1px solid var(--ink); padding-bottom:3px;
+  transition:color 0.2s, border-color 0.2s;
+}
+.dp-link:hover{ color:var(--accent); border-color:var(--accent); }
+.dp-link:hover .arrow{ transform:translateX(5px); }
+.dp-link .arrow{ display:inline-block; transition:transform 0.2s; }
+.dp-no-link{ opacity:0; pointer-events:none; } /* invisible placeholder */
+
+/* Small detail marks */
+.dp-meta-row{
+  display:flex; flex-direction:column; gap:4px;
+  align-items:flex-end;
+}
+.dp-meta-val{
+  font-size:0.62rem; letter-spacing:0.1em;
+  text-transform:uppercase; opacity:0.35;
+  text-align:right;
+}
+
+/* Accent corner mark on content */
+.dp-content::before{
+  content:'';
+  position:absolute; bottom:0; right:0;
+  width:32px; height:32px;
+  border-bottom:2px solid var(--accent);
+  border-right:2px solid var(--accent);
 }
 
 /* PROGRESS DOTS */
@@ -376,7 +421,6 @@ nav{
 
 <div id="cursor"></div>
 
-<!-- TOP NAV -->
 <nav id="nav">
   <div class="nav-tab active" data-ch="about" onclick="switchChapter('about')">
     <span class="tab-num">01</span>About
@@ -391,7 +435,7 @@ nav{
 
 <div id="stage">
 
-  <!-- ═ CHAPTER 1: ABOUT ═ -->
+  <!-- ═══ CHAPTER 1: ABOUT ═══ -->
   <div class="chapter active" id="ch-about">
     <div class="h-track" id="track-about">
 
@@ -413,17 +457,10 @@ nav{
             at Humber College, with graduation expected in
             <span style="font-style:italic;">2026.</span>
             <br><br>
-            <span style="font-size:0.95rem; opacity:0.72;">
-            Passion lies in
-            </span><span style="font-style:italic; font-size:1.08rem; color:var(--ink);">designing, planning,</span>
-            <span style="font-size:0.95rem; opacity:0.72;">
-            and adapting spaces to meet the needs of the people who use them.
-            </span>
+            <span style="font-size:0.95rem; opacity:0.72;">Passion lies in </span><span style="font-style:italic; font-size:1.08rem; color:var(--ink);">designing, planning,</span>
+            <span style="font-size:0.95rem; opacity:0.72;"> and adapting spaces to meet the needs of the people who use them.</span>
             <br><br>
-            <span style="font-size:0.78rem; opacity:0.45; letter-spacing:0.06em; text-transform:uppercase;">Tools —&nbsp;</span><span style="font-size:0.9rem;"><span style="color:var(--accent); font-style:italic;">Revit</span>,
-            AutoCAD, Twinmotion,
-            <span style="font-style:italic;">Adobe Suite</span>,
-            Microsoft Office, HTML, GDScript</span><span style="font-size:0.8rem; opacity:0.45;">&nbsp;— and whatever else brings an idea to life.</span>
+            <span style="font-size:0.78rem; opacity:0.45; letter-spacing:0.06em; text-transform:uppercase;">Tools —&nbsp;</span><span style="font-size:0.9rem;"><span style="color:var(--accent); font-style:italic;">Revit</span>, AutoCAD, Twinmotion, <span style="font-style:italic;">Adobe Suite</span>, Microsoft Office, HTML, GDScript</span><span style="font-size:0.8rem; opacity:0.45;">&nbsp;— and whatever else brings an idea to life.</span>
           </p>
         </div>
         <div class="details">
@@ -454,7 +491,7 @@ nav{
     </div>
   </div>
 
-  <!-- ═ CHAPTER 2: PROJECTS ═ -->
+  <!-- ═══ CHAPTER 2: PROJECTS / DETAIL ═══ -->
   <div class="chapter" id="ch-projects">
     <div class="h-track" id="track-projects">
 
@@ -463,23 +500,17 @@ nav{
         <p>Academic and professional projects. Scroll right to explore each one.</p>
       </div>
 
-      <!-- Project 01 -->
       <div class="h-panel project-panel">
         <div class="proj-left">
           <div class="proj-top">
             <div class="proj-number">Project 01</div>
             <div class="proj-title">Adaptive<br>Reuse</div>
-            <p class="proj-desc">Following our analysis of Hyde Park Public School, located at 72 The Queensway, Barrie, ON L4M
-7J3, were identified a significant opportunity to address the underutilization of school facilities. Due
-to the region’s declining birth rate, approximately 30% of the school’s space remains underutilized. The
-research further indicates that the surrounding neighborhood lacks a dedicated gym or athletic center.
-To maximize the use of available resources, we propose repurposing classrooms FDK1, FDK2, FDK3,
-and FDK4 into a community gym facility.</p>
+            <p class="proj-desc">Following analysis of Hyde Park Public School, located at 72 The Queensway, Barrie, ON — a significant opportunity was identified to address underutilization of school facilities. We propose repurposing classrooms FDK1–FDK4 into a community gym facility.</p>
           </div>
           <a class="proj-link" href="project.html?id=residential-house">View full project <span class="arrow">→</span></a>
         </div>
         <div class="proj-right">
-          <img class="proj-img" src="p1.png" onerror="this.src='https://picsum.photos/1200/700?1'" alt="Residential House">
+          <img class="proj-img" src="p1.png" onerror="this.src='https://picsum.photos/1200/700?1'" alt="Adaptive Reuse">
           <div class="proj-meta">
             <div class="proj-meta-item"><span class="proj-meta-label">Year</span><span class="proj-meta-val">2026</span></div>
             <div class="proj-meta-item"><span class="proj-meta-label">Type</span><span class="proj-meta-val">Community Use</span></div>
@@ -488,14 +519,12 @@ and FDK4 into a community gym facility.</p>
         </div>
       </div>
 
-      <!-- Project 02 -->
       <div class="h-panel project-panel">
         <div class="proj-left">
           <div class="proj-top">
             <div class="proj-number">Project 02</div>
             <div class="proj-title">Community<br>Center</div>
-            <p class="proj-desc">A neighbourhood hub integrating flexible programming spaces, a library wing, and outdoor terraces. 
-              The building section steps down toward the adjacent park, dissolving the boundary between interior and landscape.</p>
+            <p class="proj-desc">A neighbourhood hub integrating flexible programming spaces, a library wing, and outdoor terraces. The building section steps down toward the adjacent park, dissolving the boundary between interior and landscape.</p>
           </div>
           <a class="proj-link" href="project1.html">View full project <span class="arrow">→</span></a>
         </div>
@@ -509,7 +538,6 @@ and FDK4 into a community gym facility.</p>
         </div>
       </div>
 
-      <!-- Project 03 -->
       <div class="h-panel project-panel">
         <div class="proj-left">
           <div class="proj-top">
@@ -529,7 +557,6 @@ and FDK4 into a community gym facility.</p>
         </div>
       </div>
 
-      <!-- Project 04 -->
       <div class="h-panel project-panel">
         <div class="proj-left">
           <div class="proj-top">
@@ -552,58 +579,122 @@ and FDK4 into a community gym facility.</p>
     </div>
   </div>
 
-  <!-- ═ CHAPTER 3: ACTIVITIES ═ -->
+  <!-- ═══ CHAPTER 3: DESIGN ═══ -->
   <div class="chapter" id="ch-activities">
     <div class="h-track" id="track-activities">
 
-      <div class="h-panel activities-intro">
+      <!-- Intro panel -->
+      <div class="h-panel design-intro">
+        <div class="intro-rule"></div>
         <h2>Beyond<br><em>Studio</em></h2>
-        <p>Competitions, workshops, design projects, and extracurricular explorations outside the academic curriculum.</p>
-      </div>
- <!-- ═ ACTIVITY 1 ═ -->
-  <div class="h-panel activity-panel">
-        <div class="act-year">2026</div>
-        <div class="act-title">African Heritage Center <br>Lodging Building & Bridge</div>
-        <div><span class="act-badge">Design project for AHC</span></div>
-        <p class="act-desc">The design focuses on creating a warm, welcoming atmosphere that feels
-connected to nature. Organic shapes, natural materials, and soft lighting are
-used to promote comfort, relaxation, and a sense of belonging. Wood textures,
-greenery, and earthy tones help create a calming environment that feels both
-inviting and culturally grounded.<br><br>
-The layout encourages smooth transitions between spaces, allowing guests to
-feel at ease while maintaining privacy and functionality. Overall, the concept
-blends natural elements with thoughtful design to create a space that supports
-gathering, reflection, and meaningful connection.</p>
-     <br><br><br>
-         <a class="proj-link" href="project2.html">View full project <span class="arrow">→</span></a>
-      </div>
-<!-- ═ ACTIVITY 2 ═ -->
-     <div class="h-panel activity-panel">
-        <div class="act-year">2026</div>
-        <div class="act-title">A/est<br></div>
-        <div><span class="act-badge award">2026 FORM - Student Innovation Competition</span><span class="act-badge">North America</span></div>
-        <p class="act-desc">Designed for a furniture competition focused on 
-          mood-boosting design, this unit-based shelf uses Formica laminate
-          and Fenix NTM. The modular design balances functionality, aesthetics, 
-          and user experience, meeting all competition requirements.</p>
-        <br><br><br>
-         <a class="proj-link" href="side1.html">View full project <span class="arrow">→</span></a>
-      </div>
-      
-      <div class="h-panel activity-panel">
-        <div class="act-year">2024</div>
-        <div class="act-title">Passive House<br>Detailing Workshop</div>
-        <div><span class="act-badge">Workshop</span></div>
-        <p class="act-desc">Intensive three-day workshop with certified Passive House designers, covering thermal bridge elimination, airtightness strategies, and mechanical system integration.</p>
-      </div>
-<!-- ═ ACTIVITY 3 ═ -->
-      <div class="h-panel activity-panel">
-        <div class="act-year">2023</div>
-        <div class="act-title">Steel Design<br>Student Challenge</div>
-        <div><span class="act-badge award">2nd Place</span><span class="act-badge">CISC</span></div>
-        <p class="act-desc">Collaborative team competition sponsored by the Canadian Institute of Steel Construction. Our team designed a long-span pedestrian bridge using innovative weathering steel members.</p>
+        <p>Competitions, workshops, design projects &amp; extracurricular explorations outside the academic curriculum.</p>
       </div>
 
+      <!-- ── Design 01: African Heritage Center ── -->
+      <div class="h-panel design-panel">
+        <div class="dp-image">
+          <div class="dp-year-tag">2026</div>
+          <img src="Ahc-title pickture.pdf" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="African Heritage Center">
+          <div class="img-placeholder" style="display:none;"><span>AHC</span></div>
+        </div>
+        <div class="dp-content">
+          <div class="dp-index">01</div>
+          <div class="dp-top">
+            <div class="dp-badges">
+              <span class="dp-badge">Design Project for AHC</span>
+            </div>
+            <div class="dp-title">African Heritage Center<br>Lodging &amp; Bridge</div>
+            <p class="dp-desc">The design focuses on creating a warm, welcoming atmosphere connected to nature. Organic shapes, natural materials, and soft lighting promote comfort, relaxation, and a sense of belonging. Wood textures, greenery, and earthy tones create a calming environment that feels both inviting and culturally grounded.</p>
+          </div>
+          <div class="dp-bottom">
+            <a class="dp-link" href="project2.html">View full project <span class="arrow">→</span></a>
+            <div class="dp-meta-row">
+              <span class="dp-meta-val">Lodging · Bridge</span>
+              <span class="dp-meta-val">Revit · Twinmotion · Photoshop · InDesign</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Design 02: A/est Furniture ── -->
+      <div class="h-panel design-panel">
+        <div class="dp-image">
+          <div class="dp-year-tag">2026</div>
+          <img src="aest.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="A/est Shelf">
+          <div class="img-placeholder" style="display:none;"><span>A/est</span></div>
+        </div>
+        <div class="dp-content">
+          <div class="dp-index">02</div>
+          <div class="dp-top">
+            <div class="dp-badges">
+              <span class="dp-badge highlight">2026 FORM Competition</span>
+              <span class="dp-badge">North America</span>
+            </div>
+            <div class="dp-title">A/est<br>Modular Shelf Unit</div>
+            <p class="dp-desc">Designed for a furniture competition focused on mood-boosting design, this unit-based shelf uses Formica laminate and Fenix NTM. The modular design balances functionality, aesthetics, and user experience, meeting all competition requirements with considered material honesty.</p>
+          </div>
+          <div class="dp-bottom">
+            <a class="dp-link" href="side1.html">View full project <span class="arrow">→</span></a>
+            <div class="dp-meta-row">
+              <span class="dp-meta-val">Furniture · Product</span>
+              <span class="dp-meta-val">Formica · Fenix NTM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Design 03: Passive House Workshop ── -->
+      <div class="h-panel design-panel">
+        <div class="dp-image">
+          <div class="dp-year-tag">2024</div>
+          <img src="passive.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Passive House Workshop">
+          <div class="img-placeholder" style="display:none;"><span>PH</span></div>
+        </div>
+        <div class="dp-content">
+          <div class="dp-index">03</div>
+          <div class="dp-top">
+            <div class="dp-badges">
+              <span class="dp-badge">Workshop</span>
+            </div>
+            <div class="dp-title">Passive House<br>Detailing Workshop</div>
+            <p class="dp-desc">Intensive three-day workshop with certified Passive House designers, covering thermal bridge elimination, airtightness strategies, and mechanical system integration — bridging the gap between design intent and building performance.</p>
+          </div>
+          <div class="dp-bottom">
+            <span class="dp-link dp-no-link">—</span>
+            <div class="dp-meta-row">
+              <span class="dp-meta-val">3-Day Intensive</span>
+              <span class="dp-meta-val">Passive House · Detail</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Design 04: Steel Challenge ── -->
+      <div class="h-panel design-panel">
+        <div class="dp-image">
+          <div class="dp-year-tag">2023</div>
+          <img src="steel.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Steel Design Challenge">
+          <div class="img-placeholder" style="display:none;"><span>Steel</span></div>
+        </div>
+        <div class="dp-content">
+          <div class="dp-index">04</div>
+          <div class="dp-top">
+            <div class="dp-badges">
+              <span class="dp-badge dark">2nd Place</span>
+              <span class="dp-badge">CISC</span>
+            </div>
+            <div class="dp-title">Steel Design<br>Student Challenge</div>
+            <p class="dp-desc">Collaborative team competition sponsored by the Canadian Institute of Steel Construction. Our team designed a long-span pedestrian bridge using innovative weathering steel members — recognized with 2nd place among national entries.</p>
+          </div>
+          <div class="dp-bottom">
+            <span class="dp-link dp-no-link">—</span>
+            <div class="dp-meta-row">
+              <span class="dp-meta-val">National Competition</span>
+              <span class="dp-meta-val">Structural · Bridge</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>
@@ -613,105 +704,96 @@ gathering, reflection, and meaningful connection.</p>
 <div id="progress"></div>
 
 <script>
-/* ═══ CONFIG ═══ */
-const PANEL_COUNTS = { about: 3, projects: 5, activities: 6 };
+const PANEL_COUNTS = { about: 3, projects: 5, activities: 5 };
 let activeChapter = 'about';
 const panelIdx = { about: 0, projects: 0, activities: 0 };
 
-/* ═══ SKILLS — years of experience ══ */
+/* SKILLS */
 const skills = [
   { name:'Revit',       yrs:3, max:5 },
   { name:'AutoCAD',     yrs:3, max:5 },
-  { name:'Twinmotion',    yrs:3, max:5 },
+  { name:'Twinmotion',  yrs:3, max:5 },
   { name:'Photoshop',   yrs:4, max:5 },
   { name:'InDesign',    yrs:4, max:5 },
 ];
-
 const grid = document.getElementById('skillsGrid');
 skills.forEach(s => {
   const el = document.createElement('div');
   el.className = 'skill-item';
-  const dots = Array.from({length: s.max}, (_, i) =>
+  const dots = Array.from({length: s.max}, (_,i) =>
     `<div class="skill-dot${i < s.yrs ? ' filled' : ''}"></div>`
   ).join('');
-  el.innerHTML = `
-    <div class="s-name">${s.name}</div>
+  el.innerHTML = `<div class="s-name">${s.name}</div>
     <div class="skill-dots">${dots}</div>
-    <div class="s-yrs">${s.yrs} yr${s.yrs !== 1 ? 's' : ''} experience</div>`;
+    <div class="s-yrs">${s.yrs} yr${s.yrs!==1?'s':''} experience</div>`;
   grid.appendChild(el);
 });
 
-/* ═══ DOTS ═══ */
+/* DOTS */
 const progressEl = document.getElementById('progress');
 function buildDots(ch) {
   progressEl.innerHTML = '';
   for (let i = 0; i < PANEL_COUNTS[ch]; i++) {
     const d = document.createElement('div');
     d.className = 'pdot' + (i === panelIdx[ch] ? ' active' : '');
-    d.addEventListener('click', () => { panelIdx[ch] = i; applyTrack(ch); updateDots(ch); });
+    d.addEventListener('click', () => { panelIdx[ch]=i; applyTrack(ch); updateDots(ch); });
     progressEl.appendChild(d);
   }
   checkDotVisibility();
 }
 function updateDots(ch) {
-  progressEl.querySelectorAll('.pdot').forEach((d, i) => d.classList.toggle('active', i === panelIdx[ch]));
+  progressEl.querySelectorAll('.pdot').forEach((d,i) => d.classList.toggle('active', i===panelIdx[ch]));
   checkDotVisibility();
 }
 function checkDotVisibility() {
-  progressEl.classList.toggle('hidden', activeChapter === 'about' && panelIdx['about'] === 0);
+  progressEl.classList.toggle('hidden', activeChapter==='about' && panelIdx['about']===0);
 }
 
-/* ═══ CHAPTER SWITCH ═══ */
+/* CHAPTER SWITCH */
 function switchChapter(ch) {
-  if (ch === activeChapter) return;
-  document.getElementById('ch-' + activeChapter).classList.remove('active');
-  document.getElementById('ch-' + ch).classList.add('active');
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.ch === ch));
+  if (ch===activeChapter) return;
+  document.getElementById('ch-'+activeChapter).classList.remove('active');
+  document.getElementById('ch-'+ch).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.ch===ch));
   activeChapter = ch;
   applyTrack(ch);
   buildDots(ch);
 }
 
-/* ═══ TRACK ═══ */
 function applyTrack(ch) {
-  document.getElementById('track-' + ch).style.transform = `translateX(-${panelIdx[ch] * 100}vw)`;
+  document.getElementById('track-'+ch).style.transform = `translateX(-${panelIdx[ch]*100}vw)`;
 }
 
-/* ═══ SCROLL ═══ */
+/* SCROLL */
 let locked = false;
-
 window.addEventListener('wheel', e => {
   e.preventDefault();
   if (locked) return;
   locked = true;
   const ch = activeChapter;
-  const max = PANEL_COUNTS[ch] - 1;
-  if (e.deltaY > 0) panelIdx[ch] = Math.min(panelIdx[ch] + 1, max);
-  else              panelIdx[ch] = Math.max(panelIdx[ch] - 1, 0);
-  applyTrack(ch);
-  updateDots(ch);
-  setTimeout(() => { locked = false; }, 750);
-}, { passive: false });
+  const max = PANEL_COUNTS[ch]-1;
+  if (e.deltaY>0) panelIdx[ch]=Math.min(panelIdx[ch]+1,max);
+  else            panelIdx[ch]=Math.max(panelIdx[ch]-1,0);
+  applyTrack(ch); updateDots(ch);
+  setTimeout(()=>{ locked=false; },750);
+}, { passive:false });
 
-/* ═══ KEYBOARD ═══ */
+/* KEYBOARD */
 window.addEventListener('keydown', e => {
-  const ch = activeChapter;
-  const max = PANEL_COUNTS[ch] - 1;
-  if (e.key === 'ArrowRight') { panelIdx[ch] = Math.min(panelIdx[ch]+1, max); applyTrack(ch); updateDots(ch); }
-  if (e.key === 'ArrowLeft')  { panelIdx[ch] = Math.max(panelIdx[ch]-1, 0);   applyTrack(ch); updateDots(ch); }
+  const ch=activeChapter, max=PANEL_COUNTS[ch]-1;
+  if (e.key==='ArrowRight'){ panelIdx[ch]=Math.min(panelIdx[ch]+1,max); applyTrack(ch); updateDots(ch); }
+  if (e.key==='ArrowLeft') { panelIdx[ch]=Math.max(panelIdx[ch]-1,0);   applyTrack(ch); updateDots(ch); }
 });
 
-/* ═══ CURSOR ═══ */
+/* CURSOR */
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top  = e.clientY + 'px';
+  cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px';
 });
 document.addEventListener('mouseover', e => {
   cursor.classList.toggle('big', !!e.target.closest('a, .nav-tab, .pdot'));
 });
 
-/* ═══ INIT ═══ */
 buildDots('about');
 </script>
 </body>
