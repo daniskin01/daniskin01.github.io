@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Project — Daniel Aniskin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+:root {
+  --ink: #0e0e0e;
+  --paper: #f0ece4;
+  --concrete: #c8c2b8;
+  --accent: #b5401a;
+  --nav-h: 56px;
+  --toolbar-h: 52px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body {
+  width:100%; height:100%;
+  background:var(--paper); color:var(--ink);
+  font-family:'DM Mono', monospace;
+  cursor:none; overflow:hidden;
+}
+#cursor {
+  position:fixed; width:10px; height:10px;
+  background:var(--accent); border-radius:50%;
+  pointer-events:none; z-index:9999;
+  transform:translate(-50%,-50%);
+  transition: width .15s, height .15s, background .15s;
+}
+#cursor.big { width:34px; height:34px; background:transparent; border:1.5px solid var(--accent); }
+
+/* NAV */
+nav {
+  position:fixed; top:0; left:0; right:0; height:var(--nav-h);
+  display:flex; align-items:center;
+  border-bottom:1px solid var(--ink); background:var(--paper);
+  z-index:200; padding:0 40px; gap:20px;
+}
+.nav-back {
+  display:flex; align-items:center; gap:10px;
+  font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase;
+  text-decoration:none; color:var(--ink); cursor:none; transition:color .2s;
+}
+.nav-back:hover { color:var(--accent); }
+.nav-back .arr { font-size:1rem; transition:transform .2s; }
+.nav-back:hover .arr { transform:translateX(-4px); }
+.nav-divider { width:1px; height:20px; background:var(--concrete); }
+#proj-title-nav {
+  font-family:'Playfair Display', serif; font-size:0.9rem; font-style:italic;
+  opacity:0.6; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:400px;
+}
+.nav-right { margin-left:auto; display:flex; align-items:center; gap:6px; }
+.nav-btn {
+  display:flex; align-items:center; justify-content:center;
+  width:36px; height:36px; cursor:none;
+  border:1px solid var(--concrete); background:transparent;
+  color:var(--ink); transition:all .2s; position:relative;
+}
+.nav-btn:hover { border-color:var(--ink); background:var(--ink); color:var(--paper); }
+.nav-btn:disabled { opacity:0.25; pointer-events:none; }
+.nav-btn svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+.nav-btn .tooltip {
+  position:absolute; bottom:-32px; left:50%; transform:translateX(-50%);
+  font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase;
+  background:var(--ink); color:var(--paper);
+  padding:3px 7px; white-space:nowrap;
+  opacity:0; pointer-events:none; transition:opacity .2s;
+}
+.nav-btn:hover .tooltip { opacity:1; }
+
+/* TOOLBAR */
+#toolbar {
+  position:fixed; top:var(--nav-h); left:0; right:0; height:var(--toolbar-h);
+  border-bottom:1px solid var(--concrete); background:var(--paper);
+  z-index:190; display:flex; align-items:center; padding:0 40px;
+}
+.tb-group { display:flex; align-items:center; }
+.tb-sep { width:1px; height:24px; background:var(--concrete); margin:0 16px; }
+.tb-btn {
+  width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+  cursor:none; border:none; background:transparent; color:var(--ink); transition:all .15s;
+}
+.tb-btn:hover { color:var(--accent); }
+.tb-btn svg { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.tb-btn:disabled { opacity:0.25; pointer-events:none; }
+#page-display { font-size:0.7rem; letter-spacing:0.06em; display:flex; align-items:center; gap:6px; }
+#page-input {
+  width:36px; height:28px; border:1px solid var(--concrete); background:transparent;
+  font-family:'DM Mono', monospace; font-size:0.7rem; text-align:center;
+  color:var(--ink); cursor:text; outline:none; transition:border-color .2s;
+}
+#page-input:focus { border-color:var(--ink); }
+#page-total { opacity:0.4; }
+#zoom-display { font-size:0.7rem; letter-spacing:0.05em; min-width:42px; text-align:center; }
+
+/* THUMB STRIP */
+#thumb-strip {
+  position:fixed; top:calc(var(--nav-h) + var(--toolbar-h));
+  left:0; bottom:0; width:110px;
+  border-right:1px solid var(--concrete); background:var(--paper);
+  overflow-y:auto; overflow-x:hidden; z-index:180;
+  padding:12px 8px; display:flex; flex-direction:column; gap:8px;
+  scrollbar-width:thin; scrollbar-color:var(--concrete) transparent;
+}
+#thumb-strip::-webkit-scrollbar { width:3px; }
+#thumb-strip::-webkit-scrollbar-thumb { background:var(--concrete); }
+.thumb-item {
+  position:relative; cursor:none; border:1px solid var(--concrete);
+  transition:border-color .2s, transform .2s; flex-shrink:0;
+}
+.thumb-item:hover { border-color:var(--ink); transform:scale(1.03); }
+.thumb-item.active { border-color:var(--accent); }
+.thumb-item canvas { display:block; width:100%; height:auto; }
+.thumb-num {
+  position:absolute; bottom:0; left:0; right:0; text-align:center; font-size:0.55rem;
+  background:rgba(240,236,228,0.85); padding:2px 0; letter-spacing:0.08em; opacity:0.6;
+}
+
+/* VIEWER */
+#viewer {
+  position:fixed; top:calc(var(--nav-h) + var(--toolbar-h));
+  left:110px; right:0; bottom:0;
+  overflow:auto; background:#e8e3db;
+  display:flex; justify-content:center; align-items:flex-start;
+  padding:32px;
+  scrollbar-width:thin; scrollbar-color:var(--concrete) transparent;
+}
+#viewer::-webkit-scrollbar { width:5px; height:5px; }
+#viewer::-webkit-scrollbar-thumb { background:var(--concrete); }
+#canvas-wrapper { box-shadow:0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08); line-height:0; }
+#pdf-canvas { display:block; }
+
+/* LOADER */
+#loader {
+  position:fixed; top:calc(var(--nav-h) + var(--toolbar-h));
+  left:110px; right:0; bottom:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+  z-index:60; background:var(--paper);
+}
+#loader.hidden { display:none; }
+.loader-ring {
+  width:36px; height:36px; border:2px solid var(--concrete);
+  border-top-color:var(--accent); border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+.loader-label { font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; opacity:0.35; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ERROR */
+#error-state {
+  position:fixed; top:calc(var(--nav-h) + var(--toolbar-h));
+  left:110px; right:0; bottom:0;
+  display:none; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+  z-index:60;
+}
+#error-state.visible { display:flex; }
+.error-label { font-family:'Playfair Display',serif; font-size:1.2rem; font-style:italic; opacity:0.35; }
+.error-sub { font-size:0.62rem; letter-spacing:0.15em; text-transform:uppercase; opacity:0.2; text-align:center; max-width:300px; line-height:1.8; }
+
+/* FULLSCREEN */
+#fs-overlay {
+  display:none; position:fixed; inset:0; background:#000; z-index:500;
+  flex-direction:column; align-items:center; justify-content:center;
+}
+#fs-overlay.active { display:flex; }
+#fs-canvas { display:block; max-width:96vw; max-height:90vh; }
+#fs-close {
+  position:absolute; top:18px; right:24px;
+  font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase;
+  color:#fff; cursor:none; display:flex; align-items:center; gap:8px;
+  opacity:0.5; transition:opacity .2s;
+}
+#fs-close:hover { opacity:1; }
+#fs-nav { display:flex; gap:20px; margin-top:18px; align-items:center; }
+.fs-nav-btn {
+  width:40px; height:40px; border:1px solid rgba(255,255,255,0.25);
+  background:transparent; color:#fff; cursor:none;
+  display:flex; align-items:center; justify-content:center; transition:all .2s;
+}
+.fs-nav-btn:hover { border-color:#fff; }
+.fs-nav-btn svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.fs-nav-btn:disabled { opacity:0.2; pointer-events:none; }
+#fs-page-info { color:rgba(255,255,255,0.45); font-size:0.7rem; letter-spacing:0.1em; min-width:80px; text-align:center; }
+
+/* TOAST */
+#toast {
+  position:fixed; bottom:32px; left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--ink); color:var(--paper);
+  font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase;
+  padding:10px 22px; z-index:600; opacity:0; transition:all .3s; pointer-events:none;
+}
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<nav>
+  <a class="nav-back" href="index.html"><span class="arr">←</span> Back</a>
+  <div class="nav-divider"></div>
+  <div id="proj-title-nav">Loading…</div>
+  <div class="nav-right">
+    <button class="nav-btn" id="btn-download" disabled>
+      <svg viewBox="0 0 24 24"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M3 20h18"/></svg>
+      <span class="tooltip">Download</span>
+    </button>
+    <button class="nav-btn" id="btn-share" disabled>
+      <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="2"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="19" r="2"/><path d="M8 11.5l8-5M8 12.5l8 5"/></svg>
+      <span class="tooltip">Copy link</span>
+    </button>
+    <button class="nav-btn" id="btn-fs" disabled>
+      <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3M16 3h3a2 2 0 012 2v3M21 16v3a2 2 0 01-2 2h-3M3 16v3a2 2 0 002 2h3"/></svg>
+      <span class="tooltip">Fullscreen</span>
+    </button>
+  </div>
+</nav>
+
+<div id="toolbar">
+  <div class="tb-group">
+    <button class="tb-btn" id="btn-prev" disabled>
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div id="page-display">
+      <input type="number" id="page-input" value="1" min="1">
+      <span style="opacity:0.3;">/</span>
+      <span id="page-total">—</span>
+    </div>
+    <button class="tb-btn" id="btn-next" disabled>
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+  <div class="tb-sep"></div>
+  <div class="tb-group">
+    <button class="tb-btn" id="btn-zoom-out" disabled>
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+    </button>
+    <span id="zoom-display">—</span>
+    <button class="tb-btn" id="btn-zoom-in" disabled>
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+    </button>
+    <button class="tb-btn" id="btn-zoom-fit" disabled>
+      <svg viewBox="0 0 24 24"><path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/></svg>
+    </button>
+    <button class="tb-btn" id="btn-zoom-reset" disabled>
+      <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 101.5-5"/><path d="M3 3v5h5"/></svg>
+    </button>
+  </div>
+</div>
+
+<div id="thumb-strip"></div>
+
+<div id="viewer">
+  <div id="canvas-wrapper">
+    <canvas id="pdf-canvas"></canvas>
+  </div>
+</div>
+
+<div id="loader">
+  <div class="loader-ring"></div>
+  <div class="loader-label">Loading project</div>
+</div>
+
+<div id="error-state">
+  <div class="error-label">PDF not found</div>
+  <div class="error-sub">Make sure ANISKIN.A3.pdf is in the same folder as this file</div>
+</div>
+
+<div id="fs-overlay">
+  <div id="fs-close">
+    <svg style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.6" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Close
+  </div>
+  <canvas id="fs-canvas"></canvas>
+  <div id="fs-nav">
+    <button class="fs-nav-btn" id="fs-prev" disabled>
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <span id="fs-page-info">1 / 1</span>
+    <button class="fs-nav-btn" id="fs-next" disabled>
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<div id="toast">Link copied to clipboard</div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// ╔══════════════════════════════════════╗
+// ║  CHANGE YOUR PDF FILENAME HERE ONLY  ║
+const PDF_FILE = 'detailing3.pdf';
+// ╚══════════════════════════════════════╝
+
+let pdfDoc = null, currentPage = 1, scale = 1.0, pdfBytes = null;
+const ZOOM_STEP = 0.15, ZOOM_MIN = 0.3, ZOOM_MAX = 4.0;
+
+const canvas       = document.getElementById('pdf-canvas');
+const ctx          = canvas.getContext('2d');
+const fsCanvas     = document.getElementById('fs-canvas');
+const fsCtx        = fsCanvas.getContext('2d');
+const viewer       = document.getElementById('viewer');
+const thumbStrip   = document.getElementById('thumb-strip');
+const loader       = document.getElementById('loader');
+const errorState   = document.getElementById('error-state');
+const fsOverlay    = document.getElementById('fs-overlay');
+const toast        = document.getElementById('toast');
+const projTitleNav = document.getElementById('proj-title-nav');
+const pageInput    = document.getElementById('page-input');
+const pageTotal    = document.getElementById('page-total');
+const zoomDisplay  = document.getElementById('zoom-display');
+
+// Auto-load on page open
+window.addEventListener('load', () => {
+  fetch(PDF_FILE)
+    .then(r => { if (!r.ok) throw new Error(); return r.arrayBuffer(); })
+    .then(buf => initPDF(buf))
+    .catch(() => { loader.classList.add('hidden'); errorState.classList.add('visible'); });
+});
+
+async function initPDF(buf) {
+  pdfBytes = new Uint8Array(buf);
+  pdfDoc   = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
+  const name = PDF_FILE.replace(/\.[^.]+$/, '').replace(/[_-]/g, ' ');
+  projTitleNav.textContent = name;
+  document.title = name + ' — Daniel Aniskin';
+  pageTotal.textContent = pdfDoc.numPages;
+  pageInput.max = pdfDoc.numPages;
+  scale = await fitScale();
+  loader.classList.add('hidden');
+  enableControls();
+  await renderPage(1);
+  buildThumbs();
+}
+
+async function fitScale() {
+  const page = await pdfDoc.getPage(1);
+  const vp   = page.getViewport({ scale:1 });
+  return Math.max(0.3, (viewer.clientWidth - 64) / vp.width);
+}
+
+async function renderPage(num) {
+  const page = await pdfDoc.getPage(num);
+  const vp   = page.getViewport({ scale });
+  canvas.width = vp.width; canvas.height = vp.height;
+  await page.render({ canvasContext:ctx, viewport:vp }).promise;
+  currentPage = num;
+  pageInput.value = num;
+  updateBtns();
+  highlightThumb(num);
+  if (fsOverlay.classList.contains('active')) renderFS(num);
+}
+
+async function renderFS(num) {
+  const page = await pdfDoc.getPage(num);
+  const vp1  = page.getViewport({ scale:1 });
+  const s    = Math.min((innerWidth * 0.96) / vp1.width, (innerHeight * 0.88) / vp1.height);
+  const vp   = page.getViewport({ scale:s });
+  fsCanvas.width = vp.width; fsCanvas.height = vp.height;
+  await page.render({ canvasContext:fsCtx, viewport:vp }).promise;
+  document.getElementById('fs-page-info').textContent = `${num} / ${pdfDoc.numPages}`;
+  document.getElementById('fs-prev').disabled = num <= 1;
+  document.getElementById('fs-next').disabled = num >= pdfDoc.numPages;
+}
+
+async function buildThumbs() {
+  thumbStrip.innerHTML = '';
+  for (let i = 1; i <= pdfDoc.numPages; i++) {
+    const item = document.createElement('div');
+    item.className = 'thumb-item' + (i === 1 ? ' active' : '');
+    item.dataset.page = i;
+    const tc = document.createElement('canvas');
+    const tn = document.createElement('div');
+    tn.className = 'thumb-num'; tn.textContent = i;
+    item.append(tc, tn);
+    thumbStrip.appendChild(item);
+    item.addEventListener('click', () => renderPage(+item.dataset.page));
+    (i => pdfDoc.getPage(i).then(p => {
+      const vp = p.getViewport({ scale:0.18 });
+      tc.width = vp.width; tc.height = vp.height;
+      p.render({ canvasContext:tc.getContext('2d'), viewport:vp });
+    }))(i);
+  }
+}
+
+function highlightThumb(num) {
+  thumbStrip.querySelectorAll('.thumb-item').forEach(el =>
+    el.classList.toggle('active', +el.dataset.page === num));
+  const el = thumbStrip.querySelector('.thumb-item.active');
+  if (el) el.scrollIntoView({ block:'nearest', behavior:'smooth' });
+}
+
+function enableControls() {
+  ['btn-prev','btn-next','btn-zoom-in','btn-zoom-out','btn-zoom-fit',
+   'btn-zoom-reset','btn-download','btn-share','btn-fs'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = false;
+  });
+}
+
+function updateBtns() {
+  document.getElementById('btn-prev').disabled = currentPage <= 1;
+  document.getElementById('btn-next').disabled = currentPage >= pdfDoc.numPages;
+  zoomDisplay.textContent = Math.round(scale * 100) + '%';
+}
+
+function zoomIn()    { scale = Math.min(ZOOM_MAX, scale + ZOOM_STEP); renderPage(currentPage); }
+function zoomOut()   { scale = Math.max(ZOOM_MIN, scale - ZOOM_STEP); renderPage(currentPage); }
+async function zoomFit() { scale = await fitScale(); renderPage(currentPage); }
+function zoomReset() { scale = 1.0; renderPage(currentPage); }
+
+document.getElementById('btn-prev').addEventListener('click', () => { if (currentPage > 1) renderPage(currentPage - 1); });
+document.getElementById('btn-next').addEventListener('click', () => { if (currentPage < pdfDoc.numPages) renderPage(currentPage + 1); });
+document.getElementById('btn-zoom-in').addEventListener('click', zoomIn);
+document.getElementById('btn-zoom-out').addEventListener('click', zoomOut);
+document.getElementById('btn-zoom-fit').addEventListener('click', zoomFit);
+document.getElementById('btn-zoom-reset').addEventListener('click', zoomReset);
+pageInput.addEventListener('change', () => {
+  renderPage(Math.max(1, Math.min(pdfDoc.numPages, parseInt(pageInput.value) || 1)));
+});
+
+document.getElementById('btn-download').addEventListener('click', () => {
+  const url = URL.createObjectURL(new Blob([pdfBytes], { type:'application/pdf' }));
+  Object.assign(document.createElement('a'), { href:url, download:PDF_FILE }).click();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('btn-share').addEventListener('click', () => {
+  navigator.clipboard?.writeText(location.href).then(showToast) ?? (() => {
+    const t = document.createElement('textarea');
+    t.value = location.href; document.body.appendChild(t);
+    t.select(); document.execCommand('copy');
+    document.body.removeChild(t); showToast();
+  })();
+});
+function showToast() {
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+document.getElementById('btn-fs').addEventListener('click', openFS);
+document.getElementById('fs-close').addEventListener('click', closeFS);
+fsOverlay.addEventListener('click', e => { if (e.target === fsOverlay) closeFS(); });
+document.getElementById('fs-prev').addEventListener('click', e => { e.stopPropagation(); if (currentPage > 1) renderPage(currentPage - 1); });
+document.getElementById('fs-next').addEventListener('click', e => { e.stopPropagation(); if (currentPage < pdfDoc.numPages) renderPage(currentPage + 1); });
+function openFS()  { if (!pdfDoc) return; fsOverlay.classList.add('active'); renderFS(currentPage); }
+function closeFS() { fsOverlay.classList.remove('active'); }
+
+document.addEventListener('keydown', e => {
+  if (!pdfDoc || document.activeElement === pageInput) return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { if (currentPage < pdfDoc.numPages) renderPage(currentPage + 1); }
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { if (currentPage > 1) renderPage(currentPage - 1); }
+  if (e.key === '+' || e.key === '=') zoomIn();
+  if (e.key === '-') zoomOut();
+  if (e.key === '0') zoomReset();
+  if (e.key === 'f' || e.key === 'F') fsOverlay.classList.contains('active') ? closeFS() : openFS();
+  if (e.key === 'Escape') closeFS();
+});
+
+viewer.addEventListener('wheel', e => {
+  if (!e.ctrlKey) return; e.preventDefault();
+  e.deltaY < 0 ? zoomIn() : zoomOut();
+}, { passive:false });
+
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => { cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px'; });
+document.addEventListener('mouseover', e => { cursor.classList.toggle('big', !!e.target.closest('a,button,.thumb-item')); });
+</script>
+</body>
+</html>
