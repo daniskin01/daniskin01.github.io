@@ -13,6 +13,10 @@
   --concrete: #c8c2b8;
   --accent: #b5401a;
   --nav-h: 56px;
+  --blueprint: #111110;
+  --blueprint-line: rgba(200,194,184,0.10);
+  --blueprint-text: rgba(200,194,184,0.55);
+  --blueprint-accent: var(--accent);
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
 
@@ -94,7 +98,9 @@ nav{
   position:relative; overflow:hidden;
 }
 
-/* ══ ABOUT ══ */
+/* ══════════════════════════════
+   ABOUT
+══════════════════════════════ */
 .about-hero{
   display:flex; flex-direction:column;
   justify-content:flex-end; padding:60px 80px;
@@ -167,80 +173,271 @@ nav{
 .skill-dot.filled{ background:var(--accent); border-color:var(--accent); }
 .skill-item .s-yrs{ font-size:0.6rem; opacity:0.4; letter-spacing:0.08em; }
 
-/* ══ PROJECTS ══ */
-.projects-intro{
-  background:var(--ink); color:var(--paper);
+/* ══════════════════════════════
+   DETAIL — BLUEPRINT / TECHNICAL
+══════════════════════════════ */
+
+/* Blueprint grid background utility */
+.blueprint-bg{
+  background-color: var(--blueprint);
+  background-image:
+    linear-gradient(var(--blueprint-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--blueprint-line) 1px, transparent 1px),
+    linear-gradient(rgba(200,194,184,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,194,184,0.05) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+}
+
+/* Detail intro */
+.detail-intro{
   display:flex; flex-direction:column;
   justify-content:center; padding:60px 80px;
+  position:relative; overflow:hidden;
 }
-.projects-intro h2{
+.detail-intro.blueprint-bg{}
+
+/* Corner registration marks */
+.detail-intro::before,
+.detail-intro::after{
+  content:'';
+  position:absolute;
+  width:24px; height:24px;
+  border-color:var(--blueprint-accent);
+  border-style:solid;
+  opacity:0.4;
+}
+.detail-intro::before{ top:24px; left:24px; border-width:1px 0 0 1px; }
+.detail-intro::after{  bottom:24px; right:24px; border-width:0 1px 1px 0; }
+
+.detail-intro .di-label{
+  font-size:0.6rem; letter-spacing:0.3em;
+  text-transform:uppercase; color:var(--blueprint-accent);
+  opacity:0.7; margin-bottom:20px;
+  display:flex; align-items:center; gap:12px;
+}
+.detail-intro .di-label::before{
+  content:''; display:block; width:28px; height:1px;
+  background:var(--blueprint-accent); opacity:0.6;
+}
+.detail-intro h2{
   font-family:'Playfair Display', serif;
-  font-size:clamp(3rem, 8vw, 7rem);
-  font-weight:900; line-height:0.9; margin-bottom:40px;
+  font-size:clamp(2.8rem, 7vw, 6rem);
+  font-weight:900; line-height:0.88;
+  color:#fff; margin-bottom:32px;
 }
-.projects-intro p{
-  font-size:0.75rem; letter-spacing:0.12em;
-  text-transform:uppercase; opacity:0.4;
-  max-width:360px; line-height:1.8;
+.detail-intro h2 em{ font-style:italic; color:var(--blueprint-accent); }
+.detail-intro p{
+  font-size:0.68rem; letter-spacing:0.14em;
+  text-transform:uppercase; color:var(--blueprint-text);
+  max-width:340px; line-height:2.2;
 }
+/* Stamp mark */
+.di-stamp{
+  position:absolute; bottom:40px; right:60px;
+  border:2px solid var(--blueprint-accent);
+  padding:8px 16px; opacity:0.18;
+  font-size:0.6rem; letter-spacing:0.25em;
+  text-transform:uppercase; color:var(--blueprint-accent);
+  transform:rotate(-6deg);
+}
+
+/* Project panel — technical split */
 .project-panel{
-  background:var(--paper); display:flex; overflow:hidden;
-  border-left:1px solid var(--concrete);
-  width:100vw; min-width:100vw; max-width:100vw;
+  display:flex; width:100vw; min-width:100vw; max-width:100vw;
+  height:100%; overflow:hidden;
 }
-.proj-left{
-  width:45%; min-width:45%; max-width:45%;
+
+/* Left: full blueprint drawing area */
+.pp-drawing{
+  width:55%; min-width:55%; flex-shrink:0;
+  position:relative; overflow:hidden;
+}
+.pp-drawing.blueprint-bg{}
+
+/* Title block — bottom-left architectural convention */
+.pp-title-block{
+  position:absolute; bottom:0; left:0; right:0;
+  border-top:1px solid var(--blueprint-line);
+  display:grid; grid-template-columns:1fr auto;
+  padding:14px 20px;
+  background:rgba(0,0,0,0.25);
+}
+.pp-title-block .tb-left{}
+.pp-proj-name{
+  font-family:'Playfair Display', serif;
+  font-size:clamp(1.4rem,2.5vw,2.2rem);
+  font-weight:700; color:#fff; line-height:1;
+  margin-bottom:4px;
+}
+.pp-proj-sub{
+  font-size:0.58rem; letter-spacing:0.2em;
+  text-transform:uppercase; color:var(--blueprint-text);
+}
+.pp-title-block .tb-right{
+  display:flex; flex-direction:column; align-items:flex-end;
+  justify-content:flex-end; gap:3px;
+}
+.tb-field{
+  display:flex; gap:8px; align-items:baseline;
+  font-size:0.55rem; letter-spacing:0.14em; text-transform:uppercase;
+}
+.tb-field-label{ color:var(--blueprint-text); opacity:0.6; }
+.tb-field-val{ color:var(--blueprint-accent); }
+
+/* The actual project image fills the drawing area */
+.pp-img-wrap{
+  position:absolute; inset:0; bottom:72px;
+  overflow:hidden;
+}
+.pp-img-wrap img{
+  width:100%; height:100%; object-fit:cover;
+  display:block;
+  filter:grayscale(30%) contrast(1.1) brightness(0.85);
+  transition: filter 0.5s, transform 0.5s;
+}
+.project-panel:hover .pp-img-wrap img{
+  filter:grayscale(0%) contrast(1.05) brightness(0.95);
+  transform:scale(1.02);
+}
+/* Blueprint overlay on image */
+.pp-img-wrap::after{
+  content:'';
+  position:absolute; inset:0;
+  background: linear-gradient(
+    to bottom,
+    rgba(14,14,14,0.15) 0%,
+    rgba(14,14,14,0.0) 40%,
+    rgba(14,14,14,0.55) 100%
+  );
+  pointer-events:none;
+}
+
+/* Crosshair corner marks on drawing */
+.pp-drawing .mark{
+  position:absolute; width:20px; height:20px;
+  border-color:var(--blueprint-accent);
+  border-style:solid; opacity:0.3;
+}
+.pp-drawing .mark.tl{ top:16px; left:16px; border-width:1px 0 0 1px; }
+.pp-drawing .mark.tr{ top:16px; right:16px; border-width:1px 1px 0 0; }
+
+/* drawing number badge */
+.pp-drw-num{
+  position:absolute; top:16px; left:50%; transform:translateX(-50%);
+  font-size:0.55rem; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--blueprint-text); opacity:0.5;
+  display:flex; align-items:center; gap:8px;
+}
+.pp-drw-num::before,
+.pp-drw-num::after{
+  content:''; display:block; width:20px; height:1px;
+  background:var(--blueprint-accent); opacity:0.4;
+}
+
+/* Right: spec sheet */
+.pp-specs{
+  flex:1; min-width:0;
+  display:flex; flex-direction:column;
+  background:var(--paper);
+  border-left:1px solid var(--blueprint-accent);
+  position:relative; overflow:hidden;
+}
+
+/* Thin blueprint top stripe */
+.pp-specs::before{
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:3px;
+  background:var(--blueprint-accent); opacity:0.5;
+}
+
+/* Sheet header */
+.pp-sheet-header{
+  padding:22px 40px 16px;
+  border-bottom:1px solid var(--concrete);
+  display:flex; align-items:baseline; justify-content:space-between;
+  flex-shrink:0;
+}
+.pp-sheet-title{
+  font-size:0.58rem; letter-spacing:0.22em;
+  text-transform:uppercase; opacity:0.35;
+}
+.pp-sheet-num{
+  font-size:0.58rem; letter-spacing:0.18em;
+  text-transform:uppercase; color:var(--blueprint-accent); opacity:0.6;
+}
+
+/* Main spec content */
+.pp-spec-body{
+  flex:1; padding:28px 40px 28px;
   display:flex; flex-direction:column; justify-content:space-between;
-  padding:50px 50px 50px 80px;
-  border-right:1px solid var(--concrete); flex-shrink:0;
+  overflow:hidden;
 }
-.proj-number{
-  font-size:0.6rem; letter-spacing:0.2em;
-  text-transform:uppercase; opacity:0.35; margin-bottom:14px;
-}
-.proj-title{
+
+.pp-desc{
   font-family:'Playfair Display', serif;
-  font-size:clamp(2rem, 4vw, 3.8rem);
-  font-weight:700; line-height:1; margin-bottom:24px;
+  font-size:0.9rem; line-height:1.8;
+  max-width:420px; margin-bottom:28px;
 }
-.proj-desc{
-  font-family:'Playfair Display', serif;
-  font-size:0.95rem; line-height:1.75; max-width:440px;
+
+/* Spec table — technical data rows */
+.pp-spec-table{ margin-bottom:24px; }
+.pp-spec-row{
+  display:grid; grid-template-columns:120px 1fr;
+  border-bottom:1px solid var(--concrete);
+  padding:8px 0;
+  align-items:baseline;
 }
-.proj-link{
-  display:inline-flex; align-items:center; gap:12px;
-  font-size:0.72rem; letter-spacing:0.15em;
+.pp-spec-row:first-child{ border-top:1px solid var(--concrete); }
+.pp-spec-key{
+  font-size:0.58rem; letter-spacing:0.16em;
+  text-transform:uppercase; opacity:0.35;
+}
+.pp-spec-val{
+  font-size:0.72rem; letter-spacing:0.05em;
+}
+.pp-spec-val .tag{
+  display:inline-block;
+  font-size:0.56rem; letter-spacing:0.12em;
+  text-transform:uppercase;
+  border:1px solid var(--concrete);
+  padding:2px 7px; margin-right:5px; margin-bottom:3px;
+}
+.pp-spec-val .tag.active{
+  border-color:var(--blueprint-accent);
+  color:var(--blueprint-accent);
+}
+
+/* Bottom action row */
+.pp-action-row{
+  display:flex; align-items:center; justify-content:space-between;
+  flex-shrink:0; padding:0 40px 28px;
+}
+.pp-link{
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:0.68rem; letter-spacing:0.18em;
   text-transform:uppercase; text-decoration:none;
   color:var(--ink); border-bottom:1px solid var(--ink);
   padding-bottom:3px; transition:color 0.2s, border-color 0.2s;
-  align-self:flex-start;
 }
-.proj-link:hover{ color:var(--accent); border-color:var(--accent); }
-.proj-link .arrow{ transition:transform 0.2s; }
-.proj-link:hover .arrow{ transform:translateX(6px); }
-.proj-right{
-  flex:1; min-width:0; display:flex; flex-direction:column;
-  padding:50px 60px 50px 50px; gap:24px; overflow:hidden;
-}
-.proj-img{
-  width:100%; flex:1; object-fit:cover; display:block; min-height:0;
-  filter:grayscale(20%); transition:filter 0.4s;
-}
-.project-panel:hover .proj-img{ filter:grayscale(0%); }
-.proj-meta{
-  display:flex; gap:30px; flex-shrink:0;
-  font-size:0.68rem; letter-spacing:0.1em;
-  text-transform:uppercase; opacity:0.5; flex-wrap:wrap;
-}
-.proj-meta-item{ display:flex; flex-direction:column; gap:4px; }
-.proj-meta-label{ font-size:0.55rem; letter-spacing:0.15em; opacity:0.6; text-transform:uppercase; }
-.proj-meta-val{ font-size:0.7rem; opacity:1; }
+.pp-link:hover{ color:var(--accent); border-color:var(--accent); }
+.pp-link:hover .arrow{ transform:translateX(5px); }
+.pp-link .arrow{ display:inline-block; transition:transform 0.2s; }
 
-/* ══════════════════════════════════════
-   DESIGN SECTION — editorial / vibrant
-══════════════════════════════════════ */
+/* Revision cloud indicator */
+.pp-rev{
+  font-size:0.55rem; letter-spacing:0.18em;
+  text-transform:uppercase; opacity:0.25;
+  display:flex; align-items:center; gap:6px;
+}
+.pp-rev::before{
+  content:'REV';
+  font-size:0.52rem; letter-spacing:0.2em;
+  border:1px solid currentColor; padding:2px 5px;
+}
 
-/* Intro panel — full black with oversized rotated text */
+/* ══════════════════════════════
+   DESIGN SECTION
+══════════════════════════════ */
 .design-intro{
   background:var(--ink); color:var(--paper);
   display:flex; flex-direction:column;
@@ -254,14 +451,12 @@ nav{
   font-family:'Playfair Display', serif;
   font-size:clamp(5rem,14vw,13rem);
   font-weight:900; letter-spacing:-0.04em;
-  opacity:0.04; white-space:nowrap;
-  pointer-events:none;
+  opacity:0.04; white-space:nowrap; pointer-events:none;
 }
 .design-intro h2{
   font-family:'Playfair Display', serif;
   font-size:clamp(2.5rem, 7vw, 6.5rem);
-  font-weight:900; line-height:0.88;
-  margin-bottom:32px; position:relative;
+  font-weight:900; line-height:0.88; margin-bottom:32px;
 }
 .design-intro h2 em{ font-style:italic; color:var(--accent); }
 .design-intro p{
@@ -272,29 +467,22 @@ nav{
   width:48px; height:2px; background:var(--accent); margin-bottom:28px;
 }
 
-/* Design activity panel — split layout with image */
 .design-panel{
   display:flex; width:100vw; min-width:100vw; max-width:100vw;
   height:100%; overflow:hidden;
 }
-
-/* Left: big image taking 55% */
 .dp-image{
   width:55%; min-width:55%; flex-shrink:0;
-  position:relative; overflow:hidden;
-  background:#1a1a18;
+  position:relative; overflow:hidden; background:#1a1a18;
 }
 .dp-image img{
-  width:100%; height:100%; object-fit:cover;
-  display:block;
+  width:100%; height:100%; object-fit:cover; display:block;
   filter:grayscale(15%) contrast(1.05);
   transition: filter 0.5s, transform 0.6s;
 }
 .design-panel:hover .dp-image img{
-  filter:grayscale(0%) contrast(1.08);
-  transform:scale(1.03);
+  filter:grayscale(0%) contrast(1.08); transform:scale(1.03);
 }
-/* image placeholder when no src */
 .dp-image .img-placeholder{
   width:100%; height:100%;
   display:flex; align-items:center; justify-content:center;
@@ -305,17 +493,12 @@ nav{
   font-size:clamp(4rem,8vw,8rem);
   font-weight:900; font-style:italic;
   color:rgba(255,255,255,0.04);
-  letter-spacing:-0.03em; user-select:none;
-  white-space:nowrap;
+  letter-spacing:-0.03em; user-select:none; white-space:nowrap;
 }
-/* overlay accent stripe on image */
 .dp-image::after{
-  content:'';
-  position:absolute; bottom:0; left:0;
-  width:4px; height:100%;
-  background:var(--accent);
+  content:''; position:absolute; bottom:0; left:0;
+  width:4px; height:100%; background:var(--accent);
 }
-/* year tag on image */
 .dp-year-tag{
   position:absolute; top:28px; left:28px;
   font-size:0.6rem; letter-spacing:0.22em;
@@ -323,30 +506,20 @@ nav{
   background:rgba(0,0,0,0.45); padding:5px 10px;
   backdrop-filter:blur(4px);
 }
-
-/* Right: content */
 .dp-content{
   flex:1; min-width:0;
-  display:flex; flex-direction:column;
-  justify-content:space-between;
+  display:flex; flex-direction:column; justify-content:space-between;
   padding:44px 60px 44px 50px;
-  background:var(--paper);
-  border-left:1px solid var(--concrete);
+  background:var(--paper); border-left:1px solid var(--concrete);
   position:relative;
 }
-
-/* Big decorative index number */
 .dp-index{
   position:absolute; top:-12px; right:44px;
   font-family:'Playfair Display', serif;
   font-size:clamp(6rem,12vw,10rem);
-  font-weight:900; font-style:italic;
-  line-height:1; color:var(--concrete);
-  opacity:0.25; pointer-events:none;
-  user-select:none;
+  font-weight:900; font-style:italic; line-height:1;
+  color:var(--concrete); opacity:0.25; pointer-events:none; user-select:none;
 }
-
-.dp-top{}
 .dp-badges{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
 .dp-badge{
   font-size:0.58rem; letter-spacing:0.14em;
@@ -355,19 +528,15 @@ nav{
 }
 .dp-badge.highlight{ background:var(--accent); color:var(--paper); border-color:var(--accent); }
 .dp-badge.dark{ background:var(--ink); color:var(--paper); }
-
 .dp-title{
   font-family:'Playfair Display', serif;
   font-size:clamp(1.6rem, 3vw, 2.8rem);
-  font-weight:700; line-height:1.05;
-  margin-bottom:20px; letter-spacing:-0.01em;
+  font-weight:700; line-height:1.05; margin-bottom:20px; letter-spacing:-0.01em;
 }
 .dp-desc{
   font-family:'Playfair Display', serif;
-  font-size:0.88rem; line-height:1.8;
-  opacity:0.8; max-width:460px;
+  font-size:0.88rem; line-height:1.8; opacity:0.8; max-width:460px;
 }
-
 .dp-bottom{ display:flex; align-items:flex-end; justify-content:space-between; }
 .dp-link{
   display:inline-flex; align-items:center; gap:10px;
@@ -379,34 +548,20 @@ nav{
 .dp-link:hover{ color:var(--accent); border-color:var(--accent); }
 .dp-link:hover .arrow{ transform:translateX(5px); }
 .dp-link .arrow{ display:inline-block; transition:transform 0.2s; }
-.dp-no-link{ opacity:0; pointer-events:none; } /* invisible placeholder */
-
-/* Small detail marks */
-.dp-meta-row{
-  display:flex; flex-direction:column; gap:4px;
-  align-items:flex-end;
-}
-.dp-meta-val{
-  font-size:0.62rem; letter-spacing:0.1em;
-  text-transform:uppercase; opacity:0.35;
-  text-align:right;
-}
-
-/* Accent corner mark on content */
+.dp-no-link{ opacity:0; pointer-events:none; }
+.dp-meta-row{ display:flex; flex-direction:column; gap:4px; align-items:flex-end; }
+.dp-meta-val{ font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; opacity:0.35; text-align:right; }
 .dp-content::before{
-  content:'';
-  position:absolute; bottom:0; right:0;
+  content:''; position:absolute; bottom:0; right:0;
   width:32px; height:32px;
-  border-bottom:2px solid var(--accent);
-  border-right:2px solid var(--accent);
+  border-bottom:2px solid var(--accent); border-right:2px solid var(--accent);
 }
 
 /* PROGRESS DOTS */
 #progress{
   position:fixed; bottom:28px; left:50%;
   transform:translateX(-50%);
-  display:flex; gap:8px; z-index:200;
-  transition:opacity 0.3s;
+  display:flex; gap:8px; z-index:200; transition:opacity 0.3s;
 }
 #progress.hidden{ opacity:0; pointer-events:none; }
 .pdot{
@@ -415,6 +570,8 @@ nav{
   transition:background 0.3s, transform 0.3s;
 }
 .pdot.active{ background:var(--ink); transform:scale(1.5); }
+
+
 </style>
 </head>
 <body>
@@ -435,7 +592,7 @@ nav{
 
 <div id="stage">
 
-  <!-- ═══ CHAPTER 1: ABOUT ═══ -->
+  <!-- ═══ ABOUT ═══ -->
   <div class="chapter active" id="ch-about">
     <div class="h-track" id="track-about">
 
@@ -491,87 +648,254 @@ nav{
     </div>
   </div>
 
-  <!-- ═══ CHAPTER 2: PROJECTS / DETAIL ═══ -->
+  <!-- ═══ DETAIL — BLUEPRINT TECHNICAL ═══ -->
   <div class="chapter" id="ch-projects">
     <div class="h-track" id="track-projects">
 
-      <div class="h-panel projects-intro">
+      <!-- Intro panel -->
+      <div class="h-panel detail-intro blueprint-bg">
+        <div class="di-label">Project Documentation</div>
         <h2>Selected<br><em>Work</em></h2>
-        <p>Academic and professional projects. Scroll right to explore each one.</p>
+        <p>Technical drawings, academic &amp; professional projects. Scroll right to review each sheet.</p>
+        <div class="di-stamp">Humber Polytechnic · 2023–2026</div>
       </div>
 
+      <!-- ── Project 01 ── -->
       <div class="h-panel project-panel">
-        <div class="proj-left">
-          <div class="proj-top">
-            <div class="proj-number">Project 01</div>
-            <div class="proj-title">Adaptive<br>Reuse</div>
-            <p class="proj-desc">Following analysis of Hyde Park Public School, located at 72 The Queensway, Barrie, ON — a significant opportunity was identified to address underutilization of school facilities. We propose repurposing classrooms FDK1–FDK4 into a community gym facility.</p>
+        <div class="pp-drawing blueprint-bg">
+          <div class="mark tl"></div>
+          <div class="mark tr"></div>
+          <div class="pp-drw-num">DWG-01 / ADAPTIVE REUSE</div>
+          <div class="pp-img-wrap">
+            <img src="p1.png" onerror="this.src='https://picsum.photos/1200/900?11'" alt="Adaptive Reuse">
           </div>
-          <a class="proj-link" href="project.html?id=residential-house">View full project <span class="arrow">→</span></a>
+          <div class="pp-title-block">
+            <div class="tb-left">
+              <div class="pp-proj-name">Adaptive Reuse</div>
+              <div class="pp-proj-sub">Hyde Park Public School · Barrie, ON</div>
+            </div>
+            <div class="tb-right">
+              <div class="tb-field"><span class="tb-field-label">Date</span><span class="tb-field-val">2026</span></div>
+              <div class="tb-field"><span class="tb-field-label">Scale</span><span class="tb-field-val">1:100</span></div>
+              <div class="tb-field"><span class="tb-field-label">Sheet</span><span class="tb-field-val">A-01</span></div>
+            </div>
+          </div>
         </div>
-        <div class="proj-right">
-          <img class="proj-img" src="p1.png" onerror="this.src='https://picsum.photos/1200/700?1'" alt="Adaptive Reuse">
-          <div class="proj-meta">
-            <div class="proj-meta-item"><span class="proj-meta-label">Year</span><span class="proj-meta-val">2026</span></div>
-            <div class="proj-meta-item"><span class="proj-meta-label">Type</span><span class="proj-meta-val">Community Use</span></div>
-            <div class="proj-meta-item"><span class="proj-meta-label">Software</span><span class="proj-meta-val">Revit · AutoCAD</span></div>
+        <div class="pp-specs">
+          <div class="pp-sheet-header">
+            <span class="pp-sheet-title">Project Specifications</span>
+            <span class="pp-sheet-num">SHT 01 OF 04</span>
+          </div>
+          <div class="pp-spec-body">
+            <div>
+              <p class="pp-desc">Following analysis of Hyde Park Public School, a significant opportunity was identified to address underutilization of school facilities. Classrooms FDK1–FDK4 are repurposed into a community gym facility.</p>
+              <div class="pp-spec-table">
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Project Type</span>
+                  <span class="pp-spec-val"><span class="tag active">Adaptive Reuse</span><span class="tag">Civic</span></span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Location</span>
+                  <span class="pp-spec-val">72 The Queensway, Barrie ON</span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Program</span>
+                  <span class="pp-spec-val">Community Gym · FDK Conversion</span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Software</span>
+                  <span class="pp-spec-val"><span class="tag active">Revit</span><span class="tag active">AutoCAD</span></span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Year</span>
+                  <span class="pp-spec-val">2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pp-action-row">
+            <a class="pp-link" href="project.html?id=residential-house">Open full drawings <span class="arrow">→</span></a>
+            <div class="pp-rev">A</div>
           </div>
         </div>
       </div>
 
+      <!-- ── Project 02 ── -->
       <div class="h-panel project-panel">
-        <div class="proj-left">
-          <div class="proj-top">
-            <div class="proj-number">Project 02</div>
-            <div class="proj-title">Community<br>Center</div>
-            <p class="proj-desc">A neighbourhood hub integrating flexible programming spaces, a library wing, and outdoor terraces. The building section steps down toward the adjacent park, dissolving the boundary between interior and landscape.</p>
+        <div class="pp-drawing blueprint-bg">
+          <div class="mark tl"></div>
+          <div class="mark tr"></div>
+          <div class="pp-drw-num">DWG-02 / COMMUNITY CENTER</div>
+          <div class="pp-img-wrap">
+            <img src="https://picsum.photos/1200/900?22" alt="Community Center">
           </div>
-          <a class="proj-link" href="project1.html">View full project <span class="arrow">→</span></a>
+          <div class="pp-title-block">
+            <div class="tb-left">
+              <div class="pp-proj-name">Community Center</div>
+              <div class="pp-proj-sub">Neighbourhood Hub · Public Civic</div>
+            </div>
+            <div class="tb-right">
+              <div class="tb-field"><span class="tb-field-label">Date</span><span class="tb-field-val">2024</span></div>
+              <div class="tb-field"><span class="tb-field-label">Scale</span><span class="tb-field-val">1:200</span></div>
+              <div class="tb-field"><span class="tb-field-label">Sheet</span><span class="tb-field-val">A-02</span></div>
+            </div>
+          </div>
         </div>
-        <div class="proj-right">
-          <img class="proj-img" src="https://picsum.photos/1200/700?2" alt="Community Center">
-          <div class="proj-meta">
-            <div class="proj-meta-item"><span class="proj-meta-label">Year</span><span class="proj-meta-val">2024</span></div>
-            <div class="proj-meta-item"><span class="proj-meta-label">Type</span><span class="proj-meta-val">Public · Civic</span></div>
-            <div class="proj-meta-item"><span class="proj-meta-label">Software</span><span class="proj-meta-val">SketchUp · Enscape</span></div>
+        <div class="pp-specs">
+          <div class="pp-sheet-header">
+            <span class="pp-sheet-title">Project Specifications</span>
+            <span class="pp-sheet-num">SHT 02 OF 04</span>
+          </div>
+          <div class="pp-spec-body">
+            <div>
+              <p class="pp-desc">A neighbourhood hub integrating flexible programming spaces, a library wing, and outdoor terraces. The section steps down toward the adjacent park, dissolving the boundary between interior and landscape.</p>
+              <div class="pp-spec-table">
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Project Type</span>
+                  <span class="pp-spec-val"><span class="tag active">Public</span><span class="tag active">Civic</span></span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Program</span>
+                  <span class="pp-spec-val">Library · Flex Space · Terraces</span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Structure</span>
+                  <span class="pp-spec-val">Stepped Section · Park Interface</span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Software</span>
+                  <span class="pp-spec-val"><span class="tag active">SketchUp</span><span class="tag active">Enscape</span></span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Year</span>
+                  <span class="pp-spec-val">2024</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pp-action-row">
+            <a class="pp-link" href="project1.html">Open full drawings <span class="arrow">→</span></a>
+            <div class="pp-rev">B</div>
           </div>
         </div>
       </div>
 
+      <!-- ── Project 03 ── -->
       <div class="h-panel project-panel">
-        <div class="proj-left">
-          <div class="proj-top">
-            <div class="proj-number">Project 03</div>
-            <div class="proj-title">Urban<br>Plaza</div>
-            <p class="proj-desc">A micro-scale urban intervention reclaiming a neglected transit interchange. Parametric canopy structures shade a new market street, while planted bioswales manage stormwater and define pedestrian corridors.</p>
+        <div class="pp-drawing blueprint-bg">
+          <div class="mark tl"></div>
+          <div class="mark tr"></div>
+          <div class="pp-drw-num">DWG-03 / URBAN PLAZA</div>
+          <div class="pp-img-wrap">
+            <img src="https://picsum.photos/1200/900?33" alt="Urban Plaza">
           </div>
-          <a class="proj-link" href="project.html?id=urban-plaza">View full project <span class="arrow">→</span></a>
+          <div class="pp-title-block">
+            <div class="tb-left">
+              <div class="pp-proj-name">Urban Plaza</div>
+              <div class="pp-proj-sub">Transit Interchange Intervention</div>
+            </div>
+            <div class="tb-right">
+              <div class="tb-field"><span class="tb-field-label">Date</span><span class="tb-field-val">2023</span></div>
+              <div class="tb-field"><span class="tb-field-label">Scale</span><span class="tb-field-val">1:500</span></div>
+              <div class="tb-field"><span class="tb-field-label">Sheet</span><span class="tb-field-val">A-03</span></div>
+            </div>
+          </div>
         </div>
-        <div class="proj-right">
-          <img class="proj-img" src="https://picsum.photos/1200/700?3" alt="Urban Plaza">
-          <div class="proj-meta">
-            <div class="proj-meta-item"><span class="proj-meta-label">Year</span><span class="proj-meta-val">2023</span></div>
-            <div class="proj-meta-item"><span class="proj-meta-label">Type</span><span class="proj-meta-val">Urban Design</span></div>
-            <div class="proj-meta-item"><span class="proj-meta-label">Software</span><span class="proj-meta-val">Rhino · Grasshopper</span></div>
+        <div class="pp-specs">
+          <div class="pp-sheet-header">
+            <span class="pp-sheet-title">Project Specifications</span>
+            <span class="pp-sheet-num">SHT 03 OF 04</span>
+          </div>
+          <div class="pp-spec-body">
+            <div>
+              <p class="pp-desc">A micro-scale urban intervention reclaiming a neglected transit interchange. Parametric canopy structures shade a new market street, while planted bioswales manage stormwater and define pedestrian corridors.</p>
+              <div class="pp-spec-table">
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Project Type</span>
+                  <span class="pp-spec-val"><span class="tag active">Urban Design</span><span class="tag">Parametric</span></span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Program</span>
+                  <span class="pp-spec-val">Market Street · Canopy · Bioswales</span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Systems</span>
+                  <span class="pp-spec-val">Stormwater · Pedestrian Flow</span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Software</span>
+                  <span class="pp-spec-val"><span class="tag active">Rhino</span><span class="tag active">Grasshopper</span></span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Year</span>
+                  <span class="pp-spec-val">2023</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pp-action-row">
+            <a class="pp-link" href="project.html?id=urban-plaza">Open full drawings <span class="arrow">→</span></a>
+            <div class="pp-rev">A</div>
           </div>
         </div>
       </div>
 
+      <!-- ── Project 04 ── -->
       <div class="h-panel project-panel">
-        <div class="proj-left">
-          <div class="proj-top">
-            <div class="proj-number">Project 04</div>
-            <div class="proj-title">Adaptive<br>Reuse</div>
-            <p class="proj-desc">Conversion of a former industrial warehouse into mixed-use artist live/work lofts. Existing structural steel is celebrated and extended with a new glass addition, creating dialogue between eras.</p>
+        <div class="pp-drawing blueprint-bg">
+          <div class="mark tl"></div>
+          <div class="mark tr"></div>
+          <div class="pp-drw-num">DWG-04 / ADAPTIVE REUSE II</div>
+          <div class="pp-img-wrap">
+            <img src="https://picsum.photos/1200/900?44" alt="Adaptive Reuse II">
           </div>
-          <a class="proj-link" href="project.html?id=adaptive-reuse">View full project <span class="arrow">→</span></a>
+          <div class="pp-title-block">
+            <div class="tb-left">
+              <div class="pp-proj-name">Adaptive Reuse II</div>
+              <div class="pp-proj-sub">Industrial Warehouse · Mixed-Use</div>
+            </div>
+            <div class="tb-right">
+              <div class="tb-field"><span class="tb-field-label">Date</span><span class="tb-field-val">2023</span></div>
+              <div class="tb-field"><span class="tb-field-label">Scale</span><span class="tb-field-val">1:100</span></div>
+              <div class="tb-field"><span class="tb-field-label">Sheet</span><span class="tb-field-val">A-04</span></div>
+            </div>
+          </div>
         </div>
-        <div class="proj-right">
-          <img class="proj-img" src="https://picsum.photos/1200/700?4" alt="Adaptive Reuse">
-          <div class="proj-meta">
-            <div class="proj-meta-item"><span class="proj-meta-label">Year</span><span class="proj-meta-val">2023</span></div>
-            <div class="proj-meta-item"><span class="proj-meta-label">Type</span><span class="proj-meta-val">Heritage · Mixed-Use</span></div>
-            <div class="proj-meta-item"><span class="proj-meta-label">Software</span><span class="proj-meta-val">Revit · Lumion</span></div>
+        <div class="pp-specs">
+          <div class="pp-sheet-header">
+            <span class="pp-sheet-title">Project Specifications</span>
+            <span class="pp-sheet-num">SHT 04 OF 04</span>
+          </div>
+          <div class="pp-spec-body">
+            <div>
+              <p class="pp-desc">Conversion of a former industrial warehouse into mixed-use artist live/work lofts. Existing structural steel is celebrated and extended with a new glass addition, creating dialogue between eras.</p>
+              <div class="pp-spec-table">
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Project Type</span>
+                  <span class="pp-spec-val"><span class="tag active">Heritage</span><span class="tag active">Mixed-Use</span></span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Program</span>
+                  <span class="pp-spec-val">Artist Lofts · Live/Work · Retail</span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Structure</span>
+                  <span class="pp-spec-val">Exposed Steel · Glass Addition</span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Software</span>
+                  <span class="pp-spec-val"><span class="tag active">Revit</span><span class="tag active">Lumion</span></span>
+                </div>
+                <div class="pp-spec-row">
+                  <span class="pp-spec-key">Year</span>
+                  <span class="pp-spec-val">2023</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pp-action-row">
+            <a class="pp-link" href="project.html?id=adaptive-reuse">Open full drawings <span class="arrow">→</span></a>
+            <div class="pp-rev">C</div>
           </div>
         </div>
       </div>
@@ -579,18 +903,16 @@ nav{
     </div>
   </div>
 
-  <!-- ═══ CHAPTER 3: DESIGN ═══ -->
+  <!-- ═══ DESIGN ═══ -->
   <div class="chapter" id="ch-activities">
     <div class="h-track" id="track-activities">
 
-      <!-- Intro panel -->
       <div class="h-panel design-intro">
         <div class="intro-rule"></div>
         <h2>Beyond<br><em>Studio</em></h2>
         <p>Competitions, workshops, design projects &amp; extracurricular explorations outside the academic curriculum.</p>
       </div>
 
-      <!-- ── Design 01: African Heritage Center ── -->
       <div class="h-panel design-panel">
         <div class="dp-image">
           <div class="dp-year-tag">2026</div>
@@ -600,9 +922,7 @@ nav{
         <div class="dp-content">
           <div class="dp-index">01</div>
           <div class="dp-top">
-            <div class="dp-badges">
-              <span class="dp-badge">Design Project for AHC</span>
-            </div>
+            <div class="dp-badges"><span class="dp-badge">Design Project for AHC</span></div>
             <div class="dp-title">African Heritage Center<br>Lodging &amp; Bridge</div>
             <p class="dp-desc">The design focuses on creating a warm, welcoming atmosphere connected to nature. Organic shapes, natural materials, and soft lighting promote comfort, relaxation, and a sense of belonging. Wood textures, greenery, and earthy tones create a calming environment that feels both inviting and culturally grounded.</p>
           </div>
@@ -616,7 +936,6 @@ nav{
         </div>
       </div>
 
-      <!-- ── Design 02: A/est Furniture ── -->
       <div class="h-panel design-panel">
         <div class="dp-image">
           <div class="dp-year-tag">2026</div>
@@ -643,7 +962,6 @@ nav{
         </div>
       </div>
 
-      <!-- ── Design 03: Passive House Workshop ── -->
       <div class="h-panel design-panel">
         <div class="dp-image">
           <div class="dp-year-tag">2024</div>
@@ -653,9 +971,7 @@ nav{
         <div class="dp-content">
           <div class="dp-index">03</div>
           <div class="dp-top">
-            <div class="dp-badges">
-              <span class="dp-badge">Workshop</span>
-            </div>
+            <div class="dp-badges"><span class="dp-badge">Workshop</span></div>
             <div class="dp-title">Passive House<br>Detailing Workshop</div>
             <p class="dp-desc">Intensive three-day workshop with certified Passive House designers, covering thermal bridge elimination, airtightness strategies, and mechanical system integration — bridging the gap between design intent and building performance.</p>
           </div>
@@ -669,7 +985,6 @@ nav{
         </div>
       </div>
 
-      <!-- ── Design 04: Steel Challenge ── -->
       <div class="h-panel design-panel">
         <div class="dp-image">
           <div class="dp-year-tag">2023</div>
@@ -708,91 +1023,79 @@ const PANEL_COUNTS = { about: 3, projects: 5, activities: 5 };
 let activeChapter = 'about';
 const panelIdx = { about: 0, projects: 0, activities: 0 };
 
-/* SKILLS */
 const skills = [
-  { name:'Revit',       yrs:3, max:5 },
-  { name:'AutoCAD',     yrs:3, max:5 },
-  { name:'Twinmotion',  yrs:3, max:5 },
-  { name:'Photoshop',   yrs:4, max:5 },
-  { name:'InDesign',    yrs:4, max:5 },
+  { name:'Revit',      yrs:3, max:5 },
+  { name:'AutoCAD',    yrs:3, max:5 },
+  { name:'Twinmotion', yrs:3, max:5 },
+  { name:'Photoshop',  yrs:4, max:5 },
+  { name:'InDesign',   yrs:4, max:5 },
 ];
 const grid = document.getElementById('skillsGrid');
 skills.forEach(s => {
   const el = document.createElement('div');
   el.className = 'skill-item';
-  const dots = Array.from({length: s.max}, (_,i) =>
-    `<div class="skill-dot${i < s.yrs ? ' filled' : ''}"></div>`
-  ).join('');
+  const dots = Array.from({length:s.max},(_,i)=>
+    `<div class="skill-dot${i<s.yrs?' filled':''}"></div>`).join('');
   el.innerHTML = `<div class="s-name">${s.name}</div>
     <div class="skill-dots">${dots}</div>
     <div class="s-yrs">${s.yrs} yr${s.yrs!==1?'s':''} experience</div>`;
   grid.appendChild(el);
 });
 
-/* DOTS */
 const progressEl = document.getElementById('progress');
 function buildDots(ch) {
   progressEl.innerHTML = '';
-  for (let i = 0; i < PANEL_COUNTS[ch]; i++) {
+  for (let i=0; i<PANEL_COUNTS[ch]; i++) {
     const d = document.createElement('div');
-    d.className = 'pdot' + (i === panelIdx[ch] ? ' active' : '');
-    d.addEventListener('click', () => { panelIdx[ch]=i; applyTrack(ch); updateDots(ch); });
+    d.className = 'pdot'+(i===panelIdx[ch]?' active':'');
+    d.addEventListener('click',()=>{ panelIdx[ch]=i; applyTrack(ch); updateDots(ch); });
     progressEl.appendChild(d);
   }
   checkDotVisibility();
+
 }
 function updateDots(ch) {
-  progressEl.querySelectorAll('.pdot').forEach((d,i) => d.classList.toggle('active', i===panelIdx[ch]));
+  progressEl.querySelectorAll('.pdot').forEach((d,i)=>{
+    d.classList.toggle('active',i===panelIdx[ch]);
+  });
   checkDotVisibility();
 }
 function checkDotVisibility() {
   progressEl.classList.toggle('hidden', activeChapter==='about' && panelIdx['about']===0);
 }
 
-/* CHAPTER SWITCH */
 function switchChapter(ch) {
   if (ch===activeChapter) return;
   document.getElementById('ch-'+activeChapter).classList.remove('active');
   document.getElementById('ch-'+ch).classList.add('active');
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.ch===ch));
-  activeChapter = ch;
-  applyTrack(ch);
-  buildDots(ch);
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.toggle('active',t.dataset.ch===ch));
+  activeChapter = ch; applyTrack(ch); buildDots(ch);
 }
-
 function applyTrack(ch) {
-  document.getElementById('track-'+ch).style.transform = `translateX(-${panelIdx[ch]*100}vw)`;
+  document.getElementById('track-'+ch).style.transform=`translateX(-${panelIdx[ch]*100}vw)`;
 }
 
-/* SCROLL */
-let locked = false;
-window.addEventListener('wheel', e => {
+let locked=false;
+window.addEventListener('wheel',e=>{
   e.preventDefault();
   if (locked) return;
-  locked = true;
-  const ch = activeChapter;
-  const max = PANEL_COUNTS[ch]-1;
+  locked=true;
+  const ch=activeChapter, max=PANEL_COUNTS[ch]-1;
   if (e.deltaY>0) panelIdx[ch]=Math.min(panelIdx[ch]+1,max);
   else            panelIdx[ch]=Math.max(panelIdx[ch]-1,0);
   applyTrack(ch); updateDots(ch);
   setTimeout(()=>{ locked=false; },750);
-}, { passive:false });
+},{passive:false});
 
-/* KEYBOARD */
-window.addEventListener('keydown', e => {
+window.addEventListener('keydown',e=>{
   const ch=activeChapter, max=PANEL_COUNTS[ch]-1;
-  if (e.key==='ArrowRight'){ panelIdx[ch]=Math.min(panelIdx[ch]+1,max); applyTrack(ch); updateDots(ch); }
-  if (e.key==='ArrowLeft') { panelIdx[ch]=Math.max(panelIdx[ch]-1,0);   applyTrack(ch); updateDots(ch); }
+  if(e.key==='ArrowRight'){panelIdx[ch]=Math.min(panelIdx[ch]+1,max);applyTrack(ch);updateDots(ch);}
+  if(e.key==='ArrowLeft') {panelIdx[ch]=Math.max(panelIdx[ch]-1,0); applyTrack(ch);updateDots(ch);}
 });
 
-/* CURSOR */
-const cursor = document.getElementById('cursor');
-document.addEventListener('mousemove', e => {
-  cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px';
-});
-document.addEventListener('mouseover', e => {
-  cursor.classList.toggle('big', !!e.target.closest('a, .nav-tab, .pdot'));
-});
+const cursor=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';});
+document.addEventListener('mouseover',e=>{cursor.classList.toggle('big',!!e.target.closest('a,.nav-tab,.pdot'));});
 
 buildDots('about');
 </script>
